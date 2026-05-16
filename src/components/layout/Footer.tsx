@@ -97,7 +97,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={item.label}
-                  className="flex h-8 w-8 items-center justify-center rounded-sm bg-white text-[#1c1c1c] transition duration-300 hover:-translate-y-0.5 hover:bg-[#ff3434] hover:text-white"
+                  className="flex h-8 w-8 items-center justify-center rounded-sm border border-white/40 bg-white text-black transition duration-300 hover:-translate-y-0.5 hover:border-[#ff3434] hover:bg-[#ff3434] hover:text-white"
                 >
                   <SocialIcon label={item.label} />
                 </Link>

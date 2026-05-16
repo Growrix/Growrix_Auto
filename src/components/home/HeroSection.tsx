@@ -24,8 +24,11 @@ export default function HeroSection() {
               {hero.titleBottom}
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-8 text-white/80 sm:text-[16px]">{hero.description}</p>
-            <Link href={hero.ctaHref} className="mt-8 inline-flex rounded-full bg-white px-8 py-3 text-[13px] font-bold uppercase tracking-[0.2em] text-[#111] transition-colors duration-300 hover:bg-[#ff3434] hover:text-white">
-              {hero.ctaLabel}
+            <Link
+              href={hero.ctaHref}
+              className="mt-8 inline-flex min-w-48 justify-center rounded-full border border-white bg-white px-8 py-3 text-[13px] font-bold uppercase tracking-[0.2em] text-black shadow-[0_10px_25px_rgba(0,0,0,0.25)] transition-colors duration-300 hover:border-[#ff3434] hover:bg-[#ff3434] hover:text-white"
+            >
+              {hero.ctaLabel || "Explore Now"}
             </Link>
           </div>
         </div>

@@ -22,7 +22,12 @@ export default function BlogPage() {
               <p className="mt-3 text-[12px] text-[#999]">{post.date}</p>
               <h2 className="mt-2 text-[16px] font-bold uppercase text-[#222]">{post.title}</h2>
               <p className="mt-2 text-[13px] leading-6 text-[#666]">{post.excerpt}</p>
-              <Link href={blogPath(post.slug)} className="mt-4 inline-flex bg-[#111] px-5 py-2 text-[12px] font-bold uppercase text-white transition-colors hover:bg-[#ff3434]">Read More</Link>
+              <Link
+                href={blogPath(post.slug)}
+                className="mt-4 inline-flex rounded-sm border border-black bg-black px-5 py-2 text-[12px] font-bold uppercase tracking-[0.12em] text-white transition-colors hover:border-[#ff3434] hover:bg-[#ff3434]"
+              >
+                Read More
+              </Link>
             </article>
           ))}
         </div>
