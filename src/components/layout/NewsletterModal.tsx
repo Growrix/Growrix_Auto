@@ -1,20 +1,32 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { siteConfig, socialLinks } from "@/data/site";
 
 export default function NewsletterModal() {
-  const [open, setOpen] = useState(() => {
-    if (typeof window === "undefined") return true;
-    return window.localStorage.getItem("autostore-newsletter-dismissed") !== "true";
-  });
+  const [open, setOpen] = useState(false);
   const [doNotShow, setDoNotShow] = useState(() => {
     if (typeof window === "undefined") return false;
     return window.localStorage.getItem("autostore-newsletter-dismissed") === "true";
   });
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+
+  useEffect(() => {
+    if (doNotShow) return;
+
+    const dismissed = window.localStorage.getItem("autostore-newsletter-dismissed") === "true";
+    if (dismissed) return;
+
+    const timer = window.setTimeout(() => {
+      setOpen(true);
+    }, 3000);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [doNotShow]);
 
   const closeModal = () => {
     if (doNotShow) {
@@ -34,7 +46,7 @@ export default function NewsletterModal() {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/60 px-4 py-10 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm md:p-6">
       <div className="relative w-full max-w-5xl overflow-hidden rounded-sm bg-white shadow-2xl">
         <button
           aria-label="Close newsletter modal"
