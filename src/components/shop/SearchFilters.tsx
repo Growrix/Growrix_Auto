@@ -4,9 +4,18 @@ import { useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { vehicleFilters } from "@/data/home";
 
-export default function SearchFilters() {
+type SearchFiltersProps = {
+  tone?: "light" | "dark";
+};
+
+export default function SearchFilters({ tone = "light" }: SearchFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const isDark = tone === "dark";
+
+  const fieldClasses = isDark
+    ? "h-12 rounded-sm border border-white/70 bg-black/35 px-4 text-[14px] text-white placeholder:text-white/75"
+    : "h-12 rounded-sm border border-[#ddd] bg-white px-4 text-[14px] text-[#444] placeholder:text-[#777]";
 
   const initialValues = useMemo(
     () => ({
@@ -41,17 +50,17 @@ export default function SearchFilters() {
         value={values.q}
         onChange={(event) => updateValue("q", event.target.value)}
         placeholder="Search products"
-        className="h-12 rounded-sm border border-[#ddd] px-4 text-[14px] text-[#444]"
+        className={fieldClasses}
       />
 
       <select
         value={values.make}
         onChange={(event) => updateValue("make", event.target.value)}
-        className="h-12 rounded-sm border border-[#ddd] px-4 text-[14px] text-[#444]"
+        className={fieldClasses}
       >
-        <option value="">Select Make</option>
+        <option value="" className="bg-white text-[#111]">Select Make</option>
         {vehicleFilters.make.map((item) => (
-          <option key={item} value={item}>
+          <option key={item} value={item} className="bg-white text-[#111]">
             {item}
           </option>
         ))}
@@ -60,11 +69,11 @@ export default function SearchFilters() {
       <select
         value={values.model}
         onChange={(event) => updateValue("model", event.target.value)}
-        className="h-12 rounded-sm border border-[#ddd] px-4 text-[14px] text-[#444]"
+        className={fieldClasses}
       >
-        <option value="">Select Model</option>
+        <option value="" className="bg-white text-[#111]">Select Model</option>
         {vehicleFilters.model.map((item) => (
-          <option key={item} value={item}>
+          <option key={item} value={item} className="bg-white text-[#111]">
             {item}
           </option>
         ))}
@@ -73,11 +82,11 @@ export default function SearchFilters() {
       <select
         value={values.year}
         onChange={(event) => updateValue("year", event.target.value)}
-        className="h-12 rounded-sm border border-[#ddd] px-4 text-[14px] text-[#444]"
+        className={fieldClasses}
       >
-        <option value="">Select Year</option>
+        <option value="" className="bg-white text-[#111]">Select Year</option>
         {vehicleFilters.year.map((item) => (
-          <option key={item} value={item}>
+          <option key={item} value={item} className="bg-white text-[#111]">
             {item}
           </option>
         ))}

@@ -12,7 +12,7 @@ export default function VehicleFinderSection() {
               <p className="mt-2 text-[14px] font-semibold uppercase tracking-[0.25em] text-white/70">Over 120,000 automotive and truck parts</p>
             </div>
             <Suspense fallback={<div className="mt-8 h-46 animate-pulse bg-white/10" />}>
-              <SearchFilters />
+              <SearchFilters tone="dark" />
             </Suspense>
           </div>
         </div>
