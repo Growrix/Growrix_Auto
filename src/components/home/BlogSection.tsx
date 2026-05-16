@@ -1,5 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
 import { blogPosts } from "@/data/home";
+import { blogPath } from "@/data/routes";
 
 export default function BlogSection() {
   return (
@@ -11,13 +13,14 @@ export default function BlogSection() {
         </div>
         <div className="mt-10 grid gap-6 lg:grid-cols-3">
           {blogPosts.map((post) => (
-            <article key={post.title} className="group">
+            <article key={post.slug} className="group">
               <div className="relative h-55 overflow-hidden">
                 <Image src={post.image} alt={post.title} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
               </div>
               <p className="mt-3 text-[12px] text-[#999]">{post.date}</p>
               <h3 className="mt-2 text-[16px] font-bold uppercase text-[#111]">{post.title}</h3>
-              <button className="mt-4 rounded-sm bg-[#111] px-5 py-2 text-[12px] font-bold uppercase text-white transition-colors duration-300 hover:bg-[#ff3434]">Read More</button>
+              <p className="mt-2 text-[13px] leading-6 text-[#666]">{post.excerpt}</p>
+              <Link href={blogPath(post.slug)} className="mt-4 inline-flex rounded-sm bg-[#111] px-5 py-2 text-[12px] font-bold uppercase text-white transition-colors duration-300 hover:bg-[#ff3434]">Read More</Link>
             </article>
           ))}
         </div>

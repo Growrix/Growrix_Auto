@@ -1,5 +1,8 @@
+"use client";
+
+import { useState, type FormEvent } from "react";
 import Link from "next/link";
-import { footerColumns, paymentBrands, socialLinks } from "@/data/site";
+import { footerColumns, paymentBrands, siteConfig, socialLinks } from "@/data/site";
 
 function SocialIcon({ label }: { label: string }) {
   if (label === "Facebook") {
@@ -46,6 +49,16 @@ function SocialIcon({ label }: { label: string }) {
 }
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!email.trim()) return;
+    setSubscribed(true);
+    setEmail("");
+  };
+
   return (
     <footer className="mt-16 text-white">
       <div className="bg-[#0d0d0d] bg-[url('https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center">
@@ -57,9 +70,11 @@ export default function Footer() {
                   <h3 className="mb-5 text-[18px] font-bold uppercase tracking-wide text-white">{column.title}</h3>
                   <ul className="space-y-4 text-[14px] leading-6 text-white/85">
                     {column.links.map((item) => (
-                      <li key={item} className="flex gap-3">
+                      <li key={item.label} className="flex gap-3">
                         <span className="text-[#ff3434]">•</span>
-                        <span>{item}</span>
+                        <Link href={item.href} className="transition-colors hover:text-[#ff3434]">
+                          {item.label}
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -92,10 +107,21 @@ export default function Footer() {
 
           <div className="flex flex-1 flex-col gap-3 text-[15px] font-bold uppercase tracking-wide lg:flex-row lg:items-center lg:justify-center">
             <span>SIGN UP FOR NEWSLETTER</span>
-            <div className="flex w-full max-w-105 overflow-hidden rounded-sm bg-white">
-              <input aria-label="Email address" placeholder="Your email address" className="h-12 flex-1 px-4 text-[#1f1f1f] outline-none" />
-              <button className="h-12 bg-[#ff3434] px-5 text-[13px] font-bold text-white">SUBSCRIBE</button>
-            </div>
+            <form onSubmit={handleSubmit} className="w-full max-w-105">
+              <div className="flex overflow-hidden rounded-sm bg-white">
+                <input
+                  aria-label="Email address"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder={siteConfig.newsletterPlaceholder}
+                  className="h-12 flex-1 px-4 text-[#1f1f1f] outline-none"
+                />
+                <button type="submit" className="h-12 bg-[#ff3434] px-5 text-[13px] font-bold text-white">
+                  {siteConfig.newsletterCta}
+                </button>
+              </div>
+              {subscribed ? <p className="mt-2 text-[12px] uppercase text-white/80">Thanks, you are subscribed.</p> : null}
+            </form>
           </div>
 
           <div className="flex flex-wrap items-center gap-2 lg:justify-end">

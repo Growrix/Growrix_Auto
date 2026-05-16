@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { navLinks, siteConfig, topBarLinks } from "@/data/site";
+import { navLinks, siteConfig } from "@/data/site";
+import { routeConfig } from "@/data/routes";
+import { useCart } from "@/state/CartContext";
+import { useUtility } from "@/state/UtilityContext";
 
 function PhoneIcon() {
   return (
@@ -41,6 +44,15 @@ function MenuIcon({ open }: { open: boolean }) {
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { itemCount } = useCart();
+  const {
+    languages,
+    currencies,
+    selectedLanguage,
+    selectedCurrency,
+    setLanguage,
+    setCurrency,
+  } = useUtility();
 
   return (
     <header className="sticky top-0 z-40">
@@ -52,22 +64,39 @@ export default function Navbar() {
             </span>
             <span>Hotline: {siteConfig.hotline}</span>
           </div>
-          <div className="hidden items-center gap-5 md:flex">
-            {topBarLinks.map((item, index) => (
-              <span key={item.label} className="flex items-center gap-2 text-[12px]">
-                {index === 0 ? <span className="text-[#ff3b3b]">🔒</span> : null}
-                {item.href === "#" ? (
-                  <button type="button" className="transition-colors hover:text-[#ff3b3b]">
-                    {item.label}
-                  </button>
-                ) : (
-                  <Link href={item.href} className="transition-colors hover:text-[#ff3b3b]">
-                    {item.label}
-                  </Link>
-                )}
-                {index > 0 ? <span className="text-white/30">|</span> : null}
-              </span>
-            ))}
+          <div className="hidden items-center gap-4 md:flex">
+            <Link href={routeConfig.login} className="flex items-center gap-2 transition-colors hover:text-[#ff3b3b]">
+              <span className="text-[#ff3b3b]">🔒</span>
+              <span>{siteConfig.loginLabel}</span>
+            </Link>
+            <span className="text-white/30">|</span>
+            <label className="sr-only" htmlFor="language-select">Language</label>
+            <select
+              id="language-select"
+              value={selectedLanguage}
+              onChange={(event) => setLanguage(event.target.value)}
+              className="rounded-sm border border-white/30 bg-transparent px-2 py-1 text-[12px]"
+            >
+              {languages.map((language) => (
+                <option key={language} value={language} className="text-[#111]">
+                  {language}
+                </option>
+              ))}
+            </select>
+            <span className="text-white/30">|</span>
+            <label className="sr-only" htmlFor="currency-select">Currency</label>
+            <select
+              id="currency-select"
+              value={selectedCurrency}
+              onChange={(event) => setCurrency(event.target.value)}
+              className="rounded-sm border border-white/30 bg-transparent px-2 py-1 text-[12px]"
+            >
+              {currencies.map((currency) => (
+                <option key={currency} value={currency} className="text-[#111]">
+                  {currency}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       </div>
@@ -89,16 +118,20 @@ export default function Navbar() {
           </nav>
 
           <div className="ml-auto flex items-center gap-3">
-            <button aria-label="Search" className="flex h-10 w-10 items-center justify-center rounded-full border border-[#ddd] text-[#444] transition hover:border-[#ff3434] hover:text-[#ff3434]">
+            <Link
+              href={routeConfig.search}
+              aria-label="Search"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#ddd] text-[#444] transition hover:border-[#ff3434] hover:text-[#ff3434]"
+            >
               <SearchIcon />
-            </button>
-            <div className="hidden h-22 w-24 flex-col items-center justify-center bg-[#ff3434] text-center text-white sm:flex">
+            </Link>
+            <Link href={routeConfig.cart} className="hidden h-22 w-24 flex-col items-center justify-center bg-[#ff3434] text-center text-white sm:flex">
               <span className="leading-none">
                 <CartIcon />
               </span>
               <span className="mt-1 text-[13px] font-bold">{siteConfig.cartLabel}</span>
-              <span className="text-[12px]">{siteConfig.cartCount}</span>
-            </div>
+              <span className="text-[12px]">{itemCount} {itemCount === 1 ? "item" : "items"}</span>
+            </Link>
             <button
               type="button"
               aria-label="Toggle mobile navigation"
@@ -127,6 +160,27 @@ export default function Navbar() {
                 {item.label}
               </Link>
             ))}
+            <Link
+              href={routeConfig.search}
+              onClick={() => setMobileOpen(false)}
+              className="border-b border-[#f1f1f1] py-3 text-[13px] font-semibold text-[#333] transition-colors hover:text-[#ff3434]"
+            >
+              SEARCH
+            </Link>
+            <Link
+              href={routeConfig.cart}
+              onClick={() => setMobileOpen(false)}
+              className="border-b border-[#f1f1f1] py-3 text-[13px] font-semibold text-[#333] transition-colors hover:text-[#ff3434]"
+            >
+              MY CART ({itemCount})
+            </Link>
+            <Link
+              href={routeConfig.login}
+              onClick={() => setMobileOpen(false)}
+              className="py-3 text-[13px] font-semibold text-[#333] transition-colors hover:text-[#ff3434]"
+            >
+              {siteConfig.loginLabel}
+            </Link>
           </div>
         </nav>
       </div>

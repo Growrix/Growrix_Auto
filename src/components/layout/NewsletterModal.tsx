@@ -1,9 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
+import Link from "next/link";
+import { siteConfig, socialLinks } from "@/data/site";
 
 export default function NewsletterModal() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return window.localStorage.getItem("autostore-newsletter-dismissed") !== "true";
+  });
+  const [doNotShow, setDoNotShow] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.localStorage.getItem("autostore-newsletter-dismissed") === "true";
+  });
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  const closeModal = () => {
+    if (doNotShow) {
+      window.localStorage.setItem("autostore-newsletter-dismissed", "true");
+    }
+
+    setOpen(false);
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!email.trim()) return;
+    setSubscribed(true);
+    setEmail("");
+  };
 
   if (!open) return null;
 
@@ -12,7 +38,7 @@ export default function NewsletterModal() {
       <div className="relative w-full max-w-5xl overflow-hidden rounded-sm bg-white shadow-2xl">
         <button
           aria-label="Close newsletter modal"
-          onClick={() => setOpen(false)}
+          onClick={closeModal}
           className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-[#111] text-white"
         >
           ×
@@ -23,19 +49,40 @@ export default function NewsletterModal() {
             <p className="mt-8 max-w-xl text-[16px] leading-8 text-[#555]">
               Subscribe to the mailing list to receive updates on new arrivals, special offers and other discount information.
             </p>
-            <div className="mt-10 flex max-w-xl overflow-hidden rounded-sm shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
-              <input placeholder="Your email address" className="h-14 flex-1 px-4 text-[#1f1f1f] outline-none" />
-              <button className="h-14 bg-[#ff3434] px-6 text-[15px] font-bold text-white">SUBSCRIBE</button>
-            </div>
+            <form onSubmit={handleSubmit} className="mt-10 max-w-xl">
+              <div className="flex overflow-hidden rounded-sm shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
+                <input
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder={siteConfig.newsletterPlaceholder}
+                  className="h-14 flex-1 px-4 text-[#1f1f1f] outline-none"
+                />
+                <button type="submit" className="h-14 bg-[#ff3434] px-6 text-[15px] font-bold text-white">
+                  {siteConfig.newsletterCta}
+                </button>
+              </div>
+              {subscribed ? <p className="mt-3 text-[14px] font-semibold text-[#1d7a34]">Thanks, your subscription is active.</p> : null}
+            </form>
             <label className="mt-6 flex items-center gap-3 text-[15px] text-[#333]">
-              <input type="checkbox" className="h-4 w-4" />
+              <input
+                type="checkbox"
+                checked={doNotShow}
+                onChange={(event) => setDoNotShow(event.target.checked)}
+                className="h-4 w-4"
+              />
               Don&apos;t show this popup again
             </label>
             <div className="mt-8 flex gap-3 text-[#1c1c1c]">
-              {["f", "t", "G+", "in", "p", "▶"].map((item) => (
-                <span key={item} className="flex h-10 w-10 items-center justify-center border border-[#ddd] bg-white text-[15px] font-bold">
-                  {item}
-                </span>
+              {socialLinks.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-10 w-10 items-center justify-center border border-[#ddd] bg-white text-[13px] font-bold transition-colors hover:border-[#ff3434] hover:text-[#ff3434]"
+                >
+                  {item.label.slice(0, 2).toUpperCase()}
+                </Link>
               ))}
             </div>
           </div>

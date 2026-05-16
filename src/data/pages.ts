@@ -26,11 +26,36 @@ export const contactPage = {
 export const dealsPage = {
   title: "DAILY DEALS",
   breadcrumb: ["Home", "Daily Deals"],
-  tabs: ["Baby Car Seats", "Car & Motorbike Care", "Car & Vehicle Electronics"],
   timers: ["4584 DAYS", "22 HOURS", "38 MINS", "59 SECS"],
 };
 
 export const blogPage = {
   title: "BLOG",
   breadcrumb: ["Home", "Blog"],
+};
+
+export const shopPage = {
+  title: "SHOP",
+  breadcrumb: ["Home", "Shop"],
+  subtitle: "Discover premium automotive products with complete browsing and purchase flows.",
+};
+
+export const cartPage = {
+  title: "MY CART",
+  breadcrumb: ["Home", "My Cart"],
+};
+
+export const checkoutPage = {
+  title: "CHECKOUT",
+  breadcrumb: ["Home", "Checkout"],
+};
+
+export const accountPage = {
+  title: "MY ACCOUNT",
+  breadcrumb: ["Home", "Account"],
+};
+
+export const searchPage = {
+  title: "SEARCH RESULTS",
+  breadcrumb: ["Home", "Search"],
 };

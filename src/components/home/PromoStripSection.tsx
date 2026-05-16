@@ -1,5 +1,19 @@
 import Image from "next/image";
+import Link from "next/link";
 import { promoCards } from "@/data/home";
+import { categoryPath, productPath, routeConfig } from "@/data/routes";
+
+function resolvePromoHref(card: (typeof promoCards)[number]) {
+  if (card.targetType === "category" && card.targetSlug) {
+    return categoryPath(card.targetSlug);
+  }
+
+  if (card.targetType === "product" && card.targetSlug) {
+    return productPath(card.targetSlug);
+  }
+
+  return routeConfig.shop;
+}
 
 export default function PromoStripSection() {
   return (
@@ -13,7 +27,12 @@ export default function PromoStripSection() {
               <p className="text-[12px] font-bold uppercase tracking-[0.3em] text-[#ffcf4a]">{card.label}</p>
               <div>
                 {card.title ? <h3 className="max-w-62.5 text-[24px] font-black uppercase leading-tight">{card.title}</h3> : null}
-                <button className="mt-4 rounded-sm bg-[#ff3434] px-4 py-2 text-[12px] font-bold uppercase tracking-wide text-white transition-colors duration-300 hover:bg-[#d92424]">{card.cta}</button>
+                <Link
+                  href={resolvePromoHref(card)}
+                  className="mt-4 inline-flex rounded-sm bg-[#ff3434] px-4 py-2 text-[12px] font-bold uppercase tracking-wide text-white transition-colors duration-300 hover:bg-[#d92424]"
+                >
+                  {card.cta}
+                </Link>
               </div>
             </div>
           </article>

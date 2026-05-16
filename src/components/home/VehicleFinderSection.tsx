@@ -1,3 +1,6 @@
+import { Suspense } from "react";
+import SearchFilters from "@/components/shop/SearchFilters";
+
 export default function VehicleFinderSection() {
   return (
     <section className="bg-white pb-14 pt-2">
@@ -8,17 +11,9 @@ export default function VehicleFinderSection() {
               <h2 className="text-[30px] font-black uppercase tracking-tight text-white sm:text-[42px]">Select Your Vehicle</h2>
               <p className="mt-2 text-[14px] font-semibold uppercase tracking-[0.25em] text-white/70">Over 120,000 automotive and truck parts</p>
             </div>
-            <div className="mt-8 grid gap-3 lg:grid-cols-[1fr_1fr_1fr_auto]">
-              {["Select Make", "Select Model", "Select Year"].map((item) => (
-                <div key={item} className="flex h-12 items-center justify-between rounded-sm bg-white px-4 text-[14px] text-[#666] shadow-sm">
-                  <span>{item}</span>
-                  <span>▾</span>
-                </div>
-              ))}
-              <button className="h-12 rounded-sm bg-[#ff3434] px-6 text-[13px] font-bold uppercase tracking-wide text-white">
-                Search
-              </button>
-            </div>
+            <Suspense fallback={<div className="mt-8 h-46 animate-pulse bg-white/10" />}>
+              <SearchFilters />
+            </Suspense>
           </div>
         </div>
       </div>

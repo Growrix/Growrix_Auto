@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { blogPage } from "@/data/pages";
-import { blogPosts } from "@/data/home";
+import { blogPosts } from "@/data/blog";
+import { blogPath } from "@/data/routes";
 
 export default function BlogPage() {
   return (
@@ -14,13 +15,14 @@ export default function BlogPage() {
         <h1 className="text-[34px] font-black uppercase text-[#222]">{blogPage.title}</h1>
         <div className="mt-8 grid gap-8 lg:grid-cols-3">
           {blogPosts.map((post) => (
-            <article key={post.title}>
+            <article key={post.slug}>
               <div className="relative h-60 overflow-hidden">
                 <Image src={post.image} alt={post.title} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover" />
               </div>
               <p className="mt-3 text-[12px] text-[#999]">{post.date}</p>
               <h2 className="mt-2 text-[16px] font-bold uppercase text-[#222]">{post.title}</h2>
-              <button className="mt-4 bg-[#111] px-5 py-2 text-[12px] font-bold uppercase text-white">Read More</button>
+              <p className="mt-2 text-[13px] leading-6 text-[#666]">{post.excerpt}</p>
+              <Link href={blogPath(post.slug)} className="mt-4 inline-flex bg-[#111] px-5 py-2 text-[12px] font-bold uppercase text-white transition-colors hover:bg-[#ff3434]">Read More</Link>
             </article>
           ))}
         </div>

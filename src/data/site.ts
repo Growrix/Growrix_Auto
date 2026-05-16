@@ -2,16 +2,14 @@ export const siteConfig = {
   name: "AutoStore",
   hotline: "888-943-446-000",
   loginLabel: "Login / Register",
-  language: "ENGLISH",
-  currency: "USD",
   cartLabel: "MY CART",
-  cartCount: "0 item",
   newsletterPlaceholder: "Your email address",
   newsletterCta: "SUBSCRIBE",
 };
 
 export const navLinks = [
   { label: "HOME", href: "/" },
+  { label: "SHOP", href: "/shop" },
   { label: "DEALS", href: "/daily-deals" },
   { label: "UNDER $100", href: "/#under-100" },
   { label: "NEW ARRIVALS", href: "/#new-arrivals" },
@@ -21,52 +19,52 @@ export const navLinks = [
 ];
 
 export const topBarLinks = [
-  { label: siteConfig.loginLabel, href: "#" },
-  { label: siteConfig.language, href: "#" },
-  { label: siteConfig.currency, href: "#" },
+  { label: siteConfig.loginLabel, href: "/account/login" },
+  { label: "ENGLISH", href: "/account" },
+  { label: "USD", href: "/account" },
 ];
 
 export const footerColumns = [
   {
     title: "CONTACT US",
     links: [
-      "5611 Wellington Road, Suite 115, Gainesville, VA 20155",
-      "888 9344 6000 - 888 1234 6789",
-      "autostore@magentech.com",
-      "7 Days a week from 10-00 am to 6-00 pm",
+      { label: "5611 Wellington Road, Suite 115, Gainesville, VA 20155", href: "/contact-us" },
+      { label: "888 9344 6000 - 888 1234 6789", href: "/contact-us" },
+      { label: "autostore@magentech.com", href: "/contact-us" },
+      { label: "7 Days a week from 10-00 am to 6-00 pm", href: "/contact-us" },
     ],
   },
   {
     title: "STORE LOCATION",
     links: [
-      "Los Angeles - USA",
-      "New York - USA",
-      "California - USA",
-      "Bangkok - Thailand",
-      "Paris - France",
-      "London - England",
+      { label: "Los Angeles - USA", href: "/store-location" },
+      { label: "New York - USA", href: "/store-location" },
+      { label: "California - USA", href: "/store-location" },
+      { label: "Bangkok - Thailand", href: "/store-location" },
+      { label: "Paris - France", href: "/store-location" },
+      { label: "London - England", href: "/store-location" },
     ],
   },
   {
     title: "CUSTOMER SERVICE",
     links: [
-      "Customer Service",
-      "Shipping & Returns",
-      "Track Your Order",
-      "Help Center",
-      "Store Location",
-      "Customer Feedback",
+      { label: "Customer Service", href: "/customer-service" },
+      { label: "Shipping & Returns", href: "/shipping-returns" },
+      { label: "Track Your Order", href: "/track-order" },
+      { label: "Help Center", href: "/help-center" },
+      { label: "Store Location", href: "/store-location" },
+      { label: "Customer Feedback", href: "/customer-feedback" },
     ],
   },
   {
     title: "INFORMATION",
     links: [
-      "Caps & Hats",
-      "Hoodies & Sweatshirts",
-      "Jacket & Coats",
-      "Jumpers & Cardigans",
-      "Shoes, Boots & Trainers",
-      "Underwear & Socks",
+      { label: "Caps & Hats", href: "/shop/category/smart-devices" },
+      { label: "Hoodies & Sweatshirts", href: "/shop/category/replacement-parts" },
+      { label: "Jacket & Coats", href: "/shop/category/tools-equipment" },
+      { label: "Jumpers & Cardigans", href: "/shop/category/oils-fluids" },
+      { label: "Shoes, Boots & Trainers", href: "/shop/category/wheels-tires" },
+      { label: "Underwear & Socks", href: "/shop/category/lights-lighting" },
     ],
   },
 ];
