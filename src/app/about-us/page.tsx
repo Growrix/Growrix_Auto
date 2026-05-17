@@ -18,7 +18,7 @@ export default async function AboutUsPage() {
         </div>
         <h1 className="mt-10 text-center text-[34px] font-black uppercase text-[#222]">{t("about.title")}</h1>
         <div className="mx-auto mt-5 max-w-5xl space-y-5 text-center text-[15px] leading-8 text-[#666]">
-          {aboutPage.intro.map((paragraph) => (
+          {[t("about.intro1"), t("about.intro2")].map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
         </div>

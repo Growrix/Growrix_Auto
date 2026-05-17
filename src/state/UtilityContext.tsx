@@ -29,6 +29,12 @@ type UtilityContextValue = {
 
 const UtilityContext = createContext<UtilityContextValue | null>(null);
 
+type UtilityProviderProps = {
+  children: ReactNode;
+  initialLanguage?: LanguageCode;
+  initialCurrency?: CurrencyCode;
+};
+
 function readCookieValue(key: string) {
   if (typeof document === "undefined") return null;
 
@@ -57,10 +63,10 @@ function readCurrency() {
   return normalizeCurrency(fromStorage ?? fromCookie);
 }
 
-export function UtilityProvider({ children }: { children: ReactNode }) {
+export function UtilityProvider({ children, initialLanguage, initialCurrency }: UtilityProviderProps) {
   const router = useRouter();
-  const [selectedLanguage, setSelectedLanguage] = useState<LanguageCode>(() => readLanguage());
-  const [selectedCurrency, setSelectedCurrency] = useState<CurrencyCode>(() => readCurrency());
+  const [selectedLanguage, setSelectedLanguage] = useState<LanguageCode>(() => normalizeLanguage(initialLanguage ?? readLanguage()));
+  const [selectedCurrency, setSelectedCurrency] = useState<CurrencyCode>(() => normalizeCurrency(initialCurrency ?? readCurrency()));
 
   const setLanguage = useCallback((language: string) => {
     const nextLanguage = normalizeLanguage(language);

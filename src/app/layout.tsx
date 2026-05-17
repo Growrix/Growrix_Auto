@@ -27,7 +27,7 @@ export default async function RootLayout({
   return (
     <html lang={preferences.language} className={inter.variable} data-scroll-behavior="smooth">
       <body className="min-h-screen bg-white text-[#1b1b1b] antialiased">
-        <AppProviders>
+        <AppProviders initialLanguage={preferences.language} initialCurrency={preferences.currency}>
           <div className="flex min-h-screen flex-col">
             <Navbar />
             <main className="flex-1">{children}</main>
