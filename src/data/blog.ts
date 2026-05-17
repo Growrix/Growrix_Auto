@@ -1,3 +1,5 @@
+import { brandConfig } from "@/data/brand";
+
 export type BlogPost = {
   slug: string;
   date: string;
@@ -15,11 +17,11 @@ export const blogPosts: BlogPost[] = [
     date: "2017-04-19",
     title: "MOVING FROM TICKET SYSTEM TO FORUM",
     image: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=900&q=80",
-    excerpt: "Why AutoStore migrated support conversations into a searchable community forum.",
+    excerpt: `Why ${brandConfig.siteName} migrated support conversations into a searchable community forum.`,
     content: [
       "Our support team moved from a private ticket queue to a public-first forum model to improve response speed and knowledge sharing.",
       "By tagging recurring technical issues and linking product references, we reduced duplicate tickets and made answers discoverable for everyone.",
-      "The forum now acts as both a support channel and a structured learning archive for new AutoStore customers.",
+      `The forum now acts as both a support channel and a structured learning archive for new ${brandConfig.siteName} customers.`,
     ],
     author: "Support Team",
     tags: ["support", "community", "operations"],

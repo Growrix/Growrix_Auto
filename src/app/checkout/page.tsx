@@ -4,9 +4,9 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Breadcrumbs from "@/components/shop/Breadcrumbs";
 import { checkoutPage } from "@/data/pages";
-import { productToCurrency } from "@/data/catalog";
 import { routeConfig } from "@/data/routes";
 import { useCart } from "@/state/CartContext";
+import { useUtility } from "@/state/UtilityContext";
 
 type CheckoutForm = {
   fullName: string;
@@ -27,6 +27,7 @@ const initialForm: CheckoutForm = {
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, subtotal, clearCart } = useCart();
+  const { formatPrice, t } = useUtility();
   const [formState, setFormState] = useState<CheckoutForm>(initialForm);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -43,13 +44,13 @@ export default function CheckoutPage() {
 
       <section className="mx-auto grid max-w-7xl gap-10 px-4 pb-16 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-10">
         <div>
-          <h1 className="text-[34px] font-black uppercase text-[#222]">{checkoutPage.title}</h1>
+          <h1 className="text-[34px] font-black uppercase text-[#222]">{t("checkout.title")}</h1>
 
           <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
             <input
               value={formState.fullName}
               onChange={(event) => setFormState((prev) => ({ ...prev, fullName: event.target.value }))}
-              placeholder="Full Name"
+              placeholder={t("checkout.fullName")}
               required
               className="h-12 w-full border border-[#ddd] px-4"
             />
@@ -57,14 +58,14 @@ export default function CheckoutPage() {
               type="email"
               value={formState.email}
               onChange={(event) => setFormState((prev) => ({ ...prev, email: event.target.value }))}
-              placeholder="Email"
+              placeholder={t("checkout.email")}
               required
               className="h-12 w-full border border-[#ddd] px-4"
             />
             <input
               value={formState.address}
               onChange={(event) => setFormState((prev) => ({ ...prev, address: event.target.value }))}
-              placeholder="Address"
+              placeholder={t("checkout.address")}
               required
               className="h-12 w-full border border-[#ddd] px-4"
             />
@@ -72,14 +73,14 @@ export default function CheckoutPage() {
               <input
                 value={formState.city}
                 onChange={(event) => setFormState((prev) => ({ ...prev, city: event.target.value }))}
-                placeholder="City"
+                placeholder={t("checkout.city")}
                 required
                 className="h-12 border border-[#ddd] px-4"
               />
               <input
                 value={formState.postalCode}
                 onChange={(event) => setFormState((prev) => ({ ...prev, postalCode: event.target.value }))}
-                placeholder="Postal Code"
+                placeholder={t("checkout.postalCode")}
                 required
                 className="h-12 border border-[#ddd] px-4"
               />
@@ -90,17 +91,17 @@ export default function CheckoutPage() {
               disabled={items.length === 0}
               className="h-12 w-full bg-[#ff3434] text-[13px] font-bold uppercase text-white disabled:cursor-not-allowed disabled:bg-[#999]"
             >
-              Place Order
+              {t("common.placeOrder")}
             </button>
           </form>
         </div>
 
         <aside className="self-start border border-[#eee] bg-[#fafafa] p-6">
-          <h2 className="text-[20px] font-black uppercase text-[#222]">Order Summary</h2>
-          <p className="mt-3 text-[14px] text-[#666]">Items: {items.length}</p>
-          <p className="mt-2 text-[20px] font-bold text-[#ff3434]">{productToCurrency(subtotal)}</p>
+          <h2 className="text-[20px] font-black uppercase text-[#222]">{t("checkout.orderSummary")}</h2>
+          <p className="mt-3 text-[14px] text-[#666]">{t("checkout.items")}: {items.length}</p>
+          <p className="mt-2 text-[20px] font-bold text-[#ff3434]">{formatPrice(subtotal)}</p>
           {items.length === 0 ? (
-            <p className="mt-3 text-[13px] text-[#777]">Your cart is empty. Add products before checking out.</p>
+            <p className="mt-3 text-[13px] text-[#777]">{t("checkout.empty")}</p>
           ) : null}
         </aside>
       </section>

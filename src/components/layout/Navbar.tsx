@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { navLinks, siteConfig } from "@/data/site";
 import { routeConfig } from "@/data/routes";
+import { useAuth } from "@/state/AuthContext";
 import { useCart } from "@/state/CartContext";
 import { useUtility } from "@/state/UtilityContext";
 
@@ -44,15 +45,18 @@ function MenuIcon({ open }: { open: boolean }) {
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { isAuthenticated, logout } = useAuth();
   const { itemCount } = useCart();
   const {
     languages,
     currencies,
+    t,
     selectedLanguage,
     selectedCurrency,
     setLanguage,
     setCurrency,
   } = useUtility();
+  const [brandLead, ...brandRest] = siteConfig.name.split(" ");
 
   return (
     <header className="sticky top-0 z-40">
@@ -62,13 +66,30 @@ export default function Navbar() {
             <span className="text-[#ff3b3b]">
               <PhoneIcon />
             </span>
-            <span>Hotline: {siteConfig.hotline}</span>
+            <span>{t("nav.hotline")}: {siteConfig.hotline}</span>
           </div>
           <div className="hidden items-center gap-4 md:flex">
-            <Link href={routeConfig.login} className="flex items-center gap-2 transition-colors hover:text-[#ff3b3b]">
-              <span className="text-[#ff3b3b]">🔒</span>
-              <span>{siteConfig.loginLabel}</span>
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link href={routeConfig.account} className="flex items-center gap-2 transition-colors hover:text-[#ff3b3b]">
+                  <span className="text-[#ff3b3b]">👤</span>
+                  <span>{t("nav.account")}</span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={logout}
+                  className="flex items-center gap-2 transition-colors hover:text-[#ff3b3b]"
+                >
+                  <span className="text-[#ff3b3b]">↩</span>
+                  <span>{t("nav.logout")}</span>
+                </button>
+              </>
+            ) : (
+              <Link href={routeConfig.login} className="flex items-center gap-2 transition-colors hover:text-[#ff3b3b]">
+                <span className="text-[#ff3b3b]">🔒</span>
+                <span>{t("nav.loginRegister")}</span>
+              </Link>
+            )}
             <span className="text-white/30">|</span>
             <label className="sr-only" htmlFor="language-select">Language</label>
             <select
@@ -78,8 +99,8 @@ export default function Navbar() {
               className="rounded-sm border border-white/30 bg-transparent px-2 py-1 text-[12px]"
             >
               {languages.map((language) => (
-                <option key={language} value={language} className="text-[#111]">
-                  {language}
+                <option key={language.code} value={language.code} className="text-[#111]">
+                  {language.label}
                 </option>
               ))}
             </select>
@@ -105,14 +126,15 @@ export default function Navbar() {
         <div className="mx-auto flex max-w-7xl items-center px-4 py-5 sm:px-6 lg:px-10">
           <Link href="/" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
             <span className="text-[38px] font-black tracking-tight text-[#2b2b2b]">
-              Auto<span className="text-[#ff3434]">Store</span>
+              {brandLead}
+              {brandRest.length > 0 ? <span className="text-[#ff3434]"> {brandRest.join(" ")}</span> : null}
             </span>
           </Link>
 
           <nav className="ml-10 hidden flex-1 items-center justify-center gap-7 text-[14px] font-semibold lg:flex">
             {navLinks.map((item) => (
-              <Link key={item.label} href={item.href} className="transition-colors hover:text-[#ff3434]">
-                {item.label}
+              <Link key={item.labelKey} href={item.href} className="transition-colors hover:text-[#ff3434]">
+                {t(item.labelKey)}
               </Link>
             ))}
           </nav>
@@ -129,8 +151,8 @@ export default function Navbar() {
               <span className="leading-none">
                 <CartIcon />
               </span>
-              <span className="mt-1 text-[13px] font-bold">{siteConfig.cartLabel}</span>
-              <span className="text-[12px]">{itemCount} {itemCount === 1 ? "item" : "items"}</span>
+              <span className="mt-1 text-[13px] font-bold">{t("nav.myCart")}</span>
+              <span className="text-[12px]">{itemCount} {itemCount === 1 ? t("nav.itemSingular") : t("nav.itemPlural")}</span>
             </Link>
             <button
               type="button"
@@ -152,12 +174,12 @@ export default function Navbar() {
           <div className="mx-auto flex max-w-7xl flex-col px-4 py-3 sm:px-6">
             {navLinks.map((item) => (
               <Link
-                key={item.label}
+                key={item.labelKey}
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
                 className="border-b border-[#f1f1f1] py-3 text-[13px] font-semibold text-[#333] transition-colors last:border-b-0 hover:text-[#ff3434]"
               >
-                {item.label}
+                {t(item.labelKey)}
               </Link>
             ))}
             <Link
@@ -165,22 +187,44 @@ export default function Navbar() {
               onClick={() => setMobileOpen(false)}
               className="border-b border-[#f1f1f1] py-3 text-[13px] font-semibold text-[#333] transition-colors hover:text-[#ff3434]"
             >
-              SEARCH
+              {t("nav.search")}
             </Link>
             <Link
               href={routeConfig.cart}
               onClick={() => setMobileOpen(false)}
               className="border-b border-[#f1f1f1] py-3 text-[13px] font-semibold text-[#333] transition-colors hover:text-[#ff3434]"
             >
-              MY CART ({itemCount})
+              {t("nav.myCart")} ({itemCount})
             </Link>
-            <Link
-              href={routeConfig.login}
-              onClick={() => setMobileOpen(false)}
-              className="py-3 text-[13px] font-semibold text-[#333] transition-colors hover:text-[#ff3434]"
-            >
-              {siteConfig.loginLabel}
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link
+                  href={routeConfig.account}
+                  onClick={() => setMobileOpen(false)}
+                  className="border-b border-[#f1f1f1] py-3 text-[13px] font-semibold text-[#333] transition-colors hover:text-[#ff3434]"
+                >
+                  {t("nav.account")}
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    logout();
+                    setMobileOpen(false);
+                  }}
+                  className="py-3 text-left text-[13px] font-semibold text-[#333] transition-colors hover:text-[#ff3434]"
+                >
+                  {t("nav.logout")}
+                </button>
+              </>
+            ) : (
+              <Link
+                href={routeConfig.login}
+                onClick={() => setMobileOpen(false)}
+                className="py-3 text-[13px] font-semibold text-[#333] transition-colors hover:text-[#ff3434]"
+              >
+                {t("nav.loginRegister")}
+              </Link>
+            )}
           </div>
         </nav>
       </div>

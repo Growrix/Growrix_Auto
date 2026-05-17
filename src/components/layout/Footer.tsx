@@ -2,7 +2,9 @@
 
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
-import { footerColumns, paymentBrands, siteConfig, socialLinks } from "@/data/site";
+import { brandConfig, getLegalCopy } from "@/data/brand";
+import { footerColumns, paymentBrands, socialLinks } from "@/data/site";
+import { useUtility } from "@/state/UtilityContext";
 
 function SocialIcon({ label }: { label: string }) {
   if (label === "Facebook") {
@@ -51,6 +53,8 @@ function SocialIcon({ label }: { label: string }) {
 export default function Footer() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const { t } = useUtility();
+  const legalCopy = getLegalCopy();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -66,8 +70,8 @@ export default function Footer() {
           <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-10">
             <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
               {footerColumns.map((column) => (
-                <div key={column.title}>
-                  <h3 className="mb-5 text-[18px] font-bold uppercase tracking-wide text-white">{column.title}</h3>
+                <div key={column.titleKey}>
+                  <h3 className="mb-5 text-[18px] font-bold uppercase tracking-wide text-white">{t(column.titleKey)}</h3>
                   <ul className="space-y-4 text-[14px] leading-6 text-white/85">
                     {column.links.map((item) => (
                       <li key={item.label} className="flex gap-3">
@@ -88,7 +92,7 @@ export default function Footer() {
       <div className="bg-[#8f1f22] bg-[linear-gradient(90deg,#6f1116_0%,#9d2327_50%,#6f1116_100%)]">
         <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 lg:flex-row lg:items-center lg:px-10">
           <div className="flex items-center gap-4 text-[15px] font-bold uppercase tracking-wide">
-            <span>FOLLOW US</span>
+            <span>{t("footer.followUs")}</span>
             <div className="flex gap-2">
               {socialLinks.map((item) => (
                 <Link
@@ -106,21 +110,21 @@ export default function Footer() {
           </div>
 
           <div className="flex flex-1 flex-col gap-3 text-[15px] font-bold uppercase tracking-wide lg:flex-row lg:items-center lg:justify-center">
-            <span>SIGN UP FOR NEWSLETTER</span>
+            <span>{t("footer.newsletterTitle")}</span>
             <form onSubmit={handleSubmit} className="w-full max-w-105">
               <div className="flex overflow-hidden rounded-sm bg-white">
                 <input
                   aria-label="Email address"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
-                  placeholder={siteConfig.newsletterPlaceholder}
+                  placeholder={t("newsletter.placeholder")}
                   className="h-12 flex-1 px-4 text-[#1f1f1f] outline-none"
                 />
                 <button type="submit" className="h-12 bg-[#ff3434] px-5 text-[13px] font-bold text-white">
-                  {siteConfig.newsletterCta}
+                  {t("newsletter.cta")}
                 </button>
               </div>
-              {subscribed ? <p className="mt-2 text-[12px] uppercase text-white/80">Thanks, you are subscribed.</p> : null}
+              {subscribed ? <p className="mt-2 text-[12px] uppercase text-white/80">{t("footer.newsletterThanks")}</p> : null}
             </form>
           </div>
 
@@ -136,8 +140,13 @@ export default function Footer() {
 
       <div className="bg-[#111] px-4 py-5 text-[13px] text-white/85 sm:px-6 lg:px-10">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-          <p>SM Autostore © 2019 Demo Store. All Rights Reserved. Designed by MageNTech.Com</p>
-          <p>Built as a Next.js storefront replication.</p>
+          <p>
+            {legalCopy.prefix}{" "}
+            <Link href={brandConfig.growrixUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
+              Growrix OS
+            </Link>
+          </p>
+          <p>{t("footer.replicationNote")}</p>
         </div>
       </div>
     </footer>

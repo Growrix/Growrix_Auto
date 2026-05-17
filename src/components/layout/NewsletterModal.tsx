@@ -2,13 +2,17 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
-import { siteConfig, socialLinks } from "@/data/site";
+import { socialLinks } from "@/data/site";
+import { useUtility } from "@/state/UtilityContext";
+
+const newsletterDismissKey = "growrix-newsletter-dismissed";
 
 export default function NewsletterModal() {
+  const { t } = useUtility();
   const [open, setOpen] = useState(false);
   const [doNotShow, setDoNotShow] = useState(() => {
     if (typeof window === "undefined") return false;
-    return window.localStorage.getItem("autostore-newsletter-dismissed") === "true";
+    return window.localStorage.getItem(newsletterDismissKey) === "true";
   });
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
@@ -16,7 +20,7 @@ export default function NewsletterModal() {
   useEffect(() => {
     if (doNotShow) return;
 
-    const dismissed = window.localStorage.getItem("autostore-newsletter-dismissed") === "true";
+    const dismissed = window.localStorage.getItem(newsletterDismissKey) === "true";
     if (dismissed) return;
 
     const timer = window.setTimeout(() => {
@@ -30,7 +34,7 @@ export default function NewsletterModal() {
 
   const closeModal = () => {
     if (doNotShow) {
-      window.localStorage.setItem("autostore-newsletter-dismissed", "true");
+      window.localStorage.setItem(newsletterDismissKey, "true");
     }
 
     setOpen(false);
@@ -57,23 +61,23 @@ export default function NewsletterModal() {
         </button>
         <div className="grid gap-8 px-6 py-10 md:grid-cols-2 md:px-10 md:py-12">
           <div className="pt-4">
-            <h2 className="text-[40px] font-black uppercase leading-none text-[#111]">Newsletter Subscribe</h2>
+            <h2 className="text-[40px] font-black uppercase leading-none text-[#111]">{t("newsletter.title")}</h2>
             <p className="mt-8 max-w-xl text-[16px] leading-8 text-[#555]">
-              Subscribe to the mailing list to receive updates on new arrivals, special offers and other discount information.
+              {t("newsletter.description")}
             </p>
             <form onSubmit={handleSubmit} className="mt-10 max-w-xl">
               <div className="flex overflow-hidden rounded-sm shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
                 <input
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
-                  placeholder={siteConfig.newsletterPlaceholder}
+                  placeholder={t("newsletter.placeholder")}
                   className="h-14 flex-1 px-4 text-[#1f1f1f] outline-none"
                 />
                 <button type="submit" className="h-14 bg-[#ff3434] px-6 text-[15px] font-bold text-white">
-                  {siteConfig.newsletterCta}
+                  {t("newsletter.cta")}
                 </button>
               </div>
-              {subscribed ? <p className="mt-3 text-[14px] font-semibold text-[#1d7a34]">Thanks, your subscription is active.</p> : null}
+              {subscribed ? <p className="mt-3 text-[14px] font-semibold text-[#1d7a34]">{t("newsletter.subscribed")}</p> : null}
             </form>
             <label className="mt-6 flex items-center gap-3 text-[15px] text-[#333]">
               <input
@@ -82,7 +86,7 @@ export default function NewsletterModal() {
                 onChange={(event) => setDoNotShow(event.target.checked)}
                 className="h-4 w-4"
               />
-              Don&apos;t show this popup again
+              {t("newsletter.doNotShow")}
             </label>
             <div className="mt-8 flex gap-3 text-[#1c1c1c]">
               {socialLinks.map((item) => (

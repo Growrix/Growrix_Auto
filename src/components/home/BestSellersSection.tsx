@@ -1,15 +1,20 @@
+"use client";
+
 import { bestSellerProducts, bestSellerTabs } from "@/data/home";
 import Link from "next/link";
 import ProductCard from "@/components/shop/ProductCard";
 import { categoryPath, routeConfig } from "@/data/routes";
+import { useUtility } from "@/state/UtilityContext";
 
 export default function BestSellersSection() {
+  const { t } = useUtility();
+
   return (
     <section id="under-100" className="bg-white py-14 scroll-mt-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         <div className="text-center">
-          <p className="text-[11px] font-bold uppercase tracking-[0.35em] text-[#ff3434]">Top selection this week</p>
-          <h2 className="mt-2 text-[32px] font-black uppercase tracking-tight text-[#111]">Best Sellers</h2>
+          <p className="text-[11px] font-bold uppercase tracking-[0.35em] text-[#ff3434]">{t("home.topSelection")}</p>
+          <h2 className="mt-2 text-[32px] font-black uppercase tracking-tight text-[#111]">{t("home.bestSellers")}</h2>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             {bestSellerTabs.map((item, index) => (
               <Link
@@ -29,7 +34,7 @@ export default function BestSellersSection() {
 
         <div className="mt-8 text-center">
           <Link href={routeConfig.shop} className="rounded-full bg-[#ff3434] px-7 py-3 text-[13px] font-bold uppercase tracking-wide text-white transition-colors duration-300 hover:bg-[#d92424]">
-            Load More
+            {t("common.loadMore")}
           </Link>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { blogPosts } from "@/data/blog";
+import { brandConfig } from "@/data/brand";
 import {
   categories,
   dealTabs,
@@ -10,7 +11,7 @@ import {
 
 export const heroSlides = [
   {
-    eyebrow: "Welcome to AutoStore",
+    eyebrow: `Welcome to ${brandConfig.siteName}`,
     titleTop: "THE BEST",
     titleBottom: "AUTOMOTIVE SHOP",
     description: "The most complete automotive storefront experience, crafted as a clean, high-contrast, conversion-focused shopping layout.",

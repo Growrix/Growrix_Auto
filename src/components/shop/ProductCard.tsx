@@ -1,13 +1,18 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { productPath } from "@/data/routes";
-import { productToCurrency, type Product } from "@/data/catalog";
+import { type Product } from "@/data/catalog";
+import { useUtility } from "@/state/UtilityContext";
 
 type ProductCardProps = {
   product: Product;
 };
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const { formatPrice } = useUtility();
+
   return (
     <article className="group relative border border-[#e6e6e6] bg-white p-4 shadow-[0_1px_0_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       {product.discountLabel ? (
@@ -44,9 +49,9 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
 
       <div className="mt-3 flex items-center justify-center gap-3 text-[15px] font-bold">
-        <span className="text-[#ff3434]">{productToCurrency(product.price)}</span>
+        <span className="text-[#ff3434]">{formatPrice(product.price)}</span>
         {product.oldPrice ? (
-          <span className="text-[#999] line-through">{productToCurrency(product.oldPrice)}</span>
+          <span className="text-[#999] line-through">{formatPrice(product.oldPrice)}</span>
         ) : null}
       </div>
     </article>

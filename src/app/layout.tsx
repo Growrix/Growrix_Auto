@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { brandConfig } from "@/data/brand";
+import { getServerPreferences } from "@/lib/serverPreferences";
 import AppProviders from "@/state/AppProviders";
 import "./globals.css";
 
@@ -11,17 +13,19 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "AutoStore | Automotive Shop",
-  description: "Reference Style 5 storefront replication built in Next.js.",
+  title: `${brandConfig.siteName} | ${brandConfig.siteTagline}`,
+  description: `${brandConfig.siteName} offers premium automotive parts with complete shop, cart, checkout, and account flows.`,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const preferences = await getServerPreferences();
+
   return (
-    <html lang="en" className={inter.variable} data-scroll-behavior="smooth">
+    <html lang={preferences.language} className={inter.variable} data-scroll-behavior="smooth">
       <body className="min-h-screen bg-white text-[#1b1b1b] antialiased">
         <AppProviders>
           <div className="flex min-h-screen flex-col">

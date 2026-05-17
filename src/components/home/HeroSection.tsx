@@ -1,10 +1,15 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { brandConfig } from "@/data/brand";
 import { heroSlides } from "@/data/home";
 import { routeConfig } from "@/data/routes";
+import { useUtility } from "@/state/UtilityContext";
 
 export default function HeroSection() {
   const hero = heroSlides[0];
+  const { t } = useUtility();
 
   return (
     <section className="relative overflow-hidden bg-[#0d0d0d] text-white">
@@ -18,17 +23,17 @@ export default function HeroSection() {
 
         <div className="relative mx-auto flex min-h-135 max-w-7xl items-center justify-center px-4 text-center sm:px-6 lg:min-h-155 lg:px-10">
           <div className="max-w-4xl animate-fade-in-up">
-            <p className="mb-4 text-[16px] font-semibold uppercase tracking-[0.35em] text-white/90">{hero.eyebrow}</p>
-            <p className="mb-3 text-[28px] font-black italic text-[#ff4949] sm:text-[34px]">{hero.titleTop}</p>
+            <p className="mb-4 text-[16px] font-semibold uppercase tracking-[0.35em] text-white/90">{t("home.welcome", { siteName: brandConfig.siteName })}</p>
+            <p className="mb-3 text-[28px] font-black italic text-[#ff4949] sm:text-[34px]">{t("home.heroTop")}</p>
             <h1 className="text-[42px] font-black uppercase leading-[0.95] tracking-tight sm:text-[58px] lg:text-[76px]">
-              {hero.titleBottom}
+              {t("home.heroBottom")}
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-8 text-white/80 sm:text-[16px]">{hero.description}</p>
+            <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-8 text-white/80 sm:text-[16px]">{t("home.heroDescription")}</p>
             <Link
               href={hero.ctaHref}
               className="mt-8 inline-flex min-w-48 justify-center rounded-full border border-white bg-white px-8 py-3 text-[13px] font-bold uppercase tracking-[0.2em] text-black shadow-[0_10px_25px_rgba(0,0,0,0.25)] transition-colors duration-300 hover:border-[#ff3434] hover:bg-[#ff3434] hover:text-white"
             >
-              {hero.ctaLabel || "Explore Now"}
+              {t("home.exploreNow")}
             </Link>
           </div>
         </div>

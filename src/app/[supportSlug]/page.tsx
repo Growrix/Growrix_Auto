@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/shop/Breadcrumbs";
 import { getSupportLinkBySlug, supportLinks } from "@/data/support";
+import { getServerPreferences } from "@/lib/serverPreferences";
 
 type SupportPageProps = {
   params: Promise<{ supportSlug: string }>;
@@ -11,6 +12,7 @@ export function generateStaticParams() {
 }
 
 export default async function SupportPage({ params }: SupportPageProps) {
+  const { t } = await getServerPreferences();
   const { supportSlug } = await params;
   const supportPage = getSupportLinkBySlug(supportSlug);
 
@@ -20,7 +22,7 @@ export default async function SupportPage({ params }: SupportPageProps) {
 
   return (
     <div className="bg-white">
-      <Breadcrumbs items={["Home", supportPage.label]} />
+      <Breadcrumbs items={[t("common.home"), supportPage.label]} />
 
       <section className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 lg:px-10">
         <h1 className="text-[34px] font-black uppercase text-[#222]">{supportPage.label}</h1>

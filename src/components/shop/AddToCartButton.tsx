@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useCart } from "@/state/CartContext";
+import { useUtility } from "@/state/UtilityContext";
 
 type AddToCartButtonProps = {
   productSlug: string;
@@ -9,6 +10,7 @@ type AddToCartButtonProps = {
 
 export default function AddToCartButton({ productSlug }: AddToCartButtonProps) {
   const { addToCart } = useCart();
+  const { t } = useUtility();
   const [added, setAdded] = useState(false);
 
   const handleAdd = () => {
@@ -23,7 +25,7 @@ export default function AddToCartButton({ productSlug }: AddToCartButtonProps) {
       onClick={handleAdd}
       className="rounded-sm bg-[#ff3434] px-6 py-3 text-[13px] font-bold uppercase text-white transition-colors hover:bg-[#d92424]"
     >
-      {added ? "Added" : "Add To Cart"}
+      {added ? t("product.added") : t("product.addToCart")}
     </button>
   );
 }

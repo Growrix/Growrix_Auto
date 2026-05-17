@@ -1,9 +1,11 @@
+import { brandConfig } from "@/data/brand";
+
 export const aboutPage = {
   title: "ABOUT US",
   breadcrumb: ["Home", "About Us"],
   heroImage: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=1400&q=80",
   intro: [
-    "AutoStore is a clean automotive storefront concept focused on premium parts, trusted brands, and a fast shopping experience.",
+    `${brandConfig.siteName} is a clean automotive storefront concept focused on premium parts, trusted brands, and a fast shopping experience.`,
     "The layout combines a bold visual hierarchy with practical product discovery, so the template feels like a real e-commerce destination instead of a generic landing page.",
   ],
   team: [

@@ -1,5 +1,7 @@
+import { brandConfig } from "@/data/brand";
+
 export const siteConfig = {
-  name: "AutoStore",
+  name: brandConfig.siteName,
   hotline: "888-943-446-000",
   loginLabel: "Login / Register",
   cartLabel: "MY CART",
@@ -8,14 +10,14 @@ export const siteConfig = {
 };
 
 export const navLinks = [
-  { label: "HOME", href: "/" },
-  { label: "SHOP", href: "/shop" },
-  { label: "DEALS", href: "/daily-deals" },
-  { label: "UNDER $100", href: "/#under-100" },
-  { label: "NEW ARRIVALS", href: "/#new-arrivals" },
-  { label: "BLOG", href: "/blog" },
-  { label: "ABOUT US", href: "/about-us" },
-  { label: "CONTACT US", href: "/contact-us" },
+  { labelKey: "nav.home", href: "/" },
+  { labelKey: "nav.shop", href: "/shop" },
+  { labelKey: "nav.deals", href: "/daily-deals" },
+  { labelKey: "nav.under100", href: "/#under-100" },
+  { labelKey: "nav.newArrivals", href: "/#new-arrivals" },
+  { labelKey: "nav.blog", href: "/blog" },
+  { labelKey: "nav.about", href: "/about-us" },
+  { labelKey: "nav.contact", href: "/contact-us" },
 ];
 
 export const topBarLinks = [
@@ -26,16 +28,16 @@ export const topBarLinks = [
 
 export const footerColumns = [
   {
-    title: "CONTACT US",
+    titleKey: "footer.contactUs",
     links: [
       { label: "5611 Wellington Road, Suite 115, Gainesville, VA 20155", href: "/contact-us" },
       { label: "888 9344 6000 - 888 1234 6789", href: "/contact-us" },
-      { label: "autostore@magentech.com", href: "/contact-us" },
+      { label: brandConfig.supportEmail, href: "/contact-us" },
       { label: "7 Days a week from 10-00 am to 6-00 pm", href: "/contact-us" },
     ],
   },
   {
-    title: "STORE LOCATION",
+    titleKey: "footer.storeLocation",
     links: [
       { label: "Los Angeles - USA", href: "/store-location" },
       { label: "New York - USA", href: "/store-location" },
@@ -46,7 +48,7 @@ export const footerColumns = [
     ],
   },
   {
-    title: "CUSTOMER SERVICE",
+    titleKey: "footer.customerService",
     links: [
       { label: "Customer Service", href: "/customer-service" },
       { label: "Shipping & Returns", href: "/shipping-returns" },
@@ -57,7 +59,7 @@ export const footerColumns = [
     ],
   },
   {
-    title: "INFORMATION",
+    titleKey: "footer.information",
     links: [
       { label: "Caps & Hats", href: "/shop/category/smart-devices" },
       { label: "Hoodies & Sweatshirts", href: "/shop/category/replacement-parts" },

@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { vehicleFilters } from "@/data/home";
+import { useUtility } from "@/state/UtilityContext";
 
 type SearchFiltersProps = {
   tone?: "light" | "dark";
@@ -11,6 +12,7 @@ type SearchFiltersProps = {
 export default function SearchFilters({ tone = "light" }: SearchFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t } = useUtility();
   const isDark = tone === "dark";
 
   const fieldClasses = isDark
@@ -49,7 +51,7 @@ export default function SearchFilters({ tone = "light" }: SearchFiltersProps) {
       <input
         value={values.q}
         onChange={(event) => updateValue("q", event.target.value)}
-        placeholder="Search products"
+        placeholder={t("search.placeholder")}
         className={fieldClasses}
       />
 
@@ -58,7 +60,7 @@ export default function SearchFilters({ tone = "light" }: SearchFiltersProps) {
         onChange={(event) => updateValue("make", event.target.value)}
         className={fieldClasses}
       >
-        <option value="" className="bg-white text-[#111]">Select Make</option>
+        <option value="" className="bg-white text-[#111]">{t("search.selectMake")}</option>
         {vehicleFilters.make.map((item) => (
           <option key={item} value={item} className="bg-white text-[#111]">
             {item}
@@ -71,7 +73,7 @@ export default function SearchFilters({ tone = "light" }: SearchFiltersProps) {
         onChange={(event) => updateValue("model", event.target.value)}
         className={fieldClasses}
       >
-        <option value="" className="bg-white text-[#111]">Select Model</option>
+        <option value="" className="bg-white text-[#111]">{t("search.selectModel")}</option>
         {vehicleFilters.model.map((item) => (
           <option key={item} value={item} className="bg-white text-[#111]">
             {item}
@@ -84,7 +86,7 @@ export default function SearchFilters({ tone = "light" }: SearchFiltersProps) {
         onChange={(event) => updateValue("year", event.target.value)}
         className={fieldClasses}
       >
-        <option value="" className="bg-white text-[#111]">Select Year</option>
+        <option value="" className="bg-white text-[#111]">{t("search.selectYear")}</option>
         {vehicleFilters.year.map((item) => (
           <option key={item} value={item} className="bg-white text-[#111]">
             {item}
@@ -97,7 +99,7 @@ export default function SearchFilters({ tone = "light" }: SearchFiltersProps) {
         onClick={handleSearch}
         className="h-12 rounded-sm bg-[#ff3434] px-6 text-[13px] font-bold uppercase tracking-wide text-white"
       >
-        Search
+        {t("common.searchAction")}
       </button>
     </div>
   );

@@ -1,3 +1,11 @@
+import {
+  formatPriceByPreference,
+  normalizeCurrency,
+  normalizeLanguage,
+  type CurrencyCode,
+  type LanguageCode,
+} from "@/lib/localization";
+
 export type Category = {
   slug: string;
   label: string;
@@ -354,6 +362,14 @@ export function getProductsBySlugs(slugs: string[]) {
     .filter((product): product is Product => Boolean(product));
 }
 
-export function productToCurrency(price: number) {
-  return `$${price.toFixed(2)}`;
+export function productToCurrency(
+  price: number,
+  currency: CurrencyCode = "USD",
+  language: LanguageCode = "en",
+) {
+  return formatPriceByPreference(
+    price,
+    normalizeCurrency(currency),
+    normalizeLanguage(language),
+  );
 }

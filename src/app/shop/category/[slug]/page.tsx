@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/shop/Breadcrumbs";
 import ProductCard from "@/components/shop/ProductCard";
 import { categories, getCategoryBySlug, getProductsByCategory } from "@/data/catalog";
+import { getServerPreferences } from "@/lib/serverPreferences";
 
 type CategoryPageProps = {
   params: Promise<{ slug: string }>;
@@ -12,6 +13,7 @@ export function generateStaticParams() {
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
+  const { t } = await getServerPreferences();
   const { slug } = await params;
   const category = getCategoryBySlug(slug);
 
@@ -31,7 +33,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
         {categoryProducts.length === 0 ? (
           <div className="mt-10 border border-[#eee] bg-[#fafafa] px-6 py-10 text-[14px] text-[#666]">
-            No products are available in this category yet.
+            {t("shop.noProducts")}
           </div>
         ) : (
           <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">

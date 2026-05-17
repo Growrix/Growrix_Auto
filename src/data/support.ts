@@ -1,3 +1,5 @@
+import { brandConfig } from "@/data/brand";
+
 export type SupportLink = {
   label: string;
   slug: string;
@@ -45,7 +47,7 @@ export const supportLinks: SupportLink[] = [
   {
     label: "Store Location",
     slug: "store-location",
-    description: "Find AutoStore locations and business hours.",
+    description: `Find ${brandConfig.siteName} locations and business hours.`,
     content: [
       "Store locations and service counters are listed with local operating hours.",
       "Appointment booking details are available for participating locations.",
