@@ -64,7 +64,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="mt-16 text-white">
+    <footer className="mt-16 text-white motion-footer-enter">
       <div className="bg-[#0d0d0d] bg-[url('https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center">
         <div className="bg-black/85">
           <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-10">

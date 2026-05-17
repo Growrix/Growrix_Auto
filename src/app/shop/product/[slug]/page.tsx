@@ -25,6 +25,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
   }
 
   const category = getCategoryBySlug(product.categorySlug);
+  const featureItems = [
+    t("product.featureCompatibility", { category: category?.label ?? t("common.category") }),
+    t("product.featureInventory", { stock: product.stock }),
+    t("product.featureUseCase", { tags: product.tags.slice(0, 3).join(", ") }),
+    t("product.featureWarranty"),
+  ];
 
   return (
     <div className="bg-white">
@@ -62,6 +68,30 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <div className="mt-8">
             <AddToCartButton productSlug={product.slug} />
           </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-10">
+        <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+          <article className="border border-[#ececec] bg-[#fafafa] p-6 lg:p-8">
+            <h2 className="text-[24px] font-black uppercase tracking-tight text-[#222]">{t("product.descriptionTitle")}</h2>
+            <div className="mt-4 space-y-4 text-[15px] leading-8 text-[#666]">
+              <p>{t("product.descriptionBody1", { title: product.title })}</p>
+              <p>{t("product.descriptionBody2", { category: category?.label ?? t("common.category") })}</p>
+            </div>
+          </article>
+
+          <article className="border border-[#ececec] bg-white p-6 lg:p-8">
+            <h2 className="text-[24px] font-black uppercase tracking-tight text-[#222]">{t("product.featuresTitle")}</h2>
+            <ul className="mt-4 space-y-3 text-[14px] leading-7 text-[#444]">
+              {featureItems.map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#ff3434]" aria-hidden="true" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
         </div>
       </section>
     </div>

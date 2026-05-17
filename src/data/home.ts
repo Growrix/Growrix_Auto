@@ -1,5 +1,4 @@
 import { blogPosts } from "@/data/blog";
-import { brandConfig } from "@/data/brand";
 import {
   categories,
   dealTabs,
@@ -11,13 +10,31 @@ import {
 
 export const heroSlides = [
   {
-    eyebrow: `Welcome to ${brandConfig.siteName}`,
-    titleTop: "THE BEST",
-    titleBottom: "AUTOMOTIVE SHOP",
-    description: "The most complete automotive storefront experience, crafted as a clean, high-contrast, conversion-focused shopping layout.",
-    ctaLabel: "EXPLORE NOW",
+    eyebrowKey: "home.welcome",
+    titleTopKey: "home.heroTop",
+    titleBottomKey: "home.heroBottom",
+    descriptionKey: "home.heroDescription",
+    ctaLabelKey: "home.exploreNow",
     ctaHref: "/shop",
     backgroundImage: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    eyebrowKey: "home.slide2Eyebrow",
+    titleTopKey: "home.slide2Top",
+    titleBottomKey: "home.slide2Bottom",
+    descriptionKey: "home.slide2Description",
+    ctaLabelKey: "home.slide2Cta",
+    ctaHref: "/shop/category/replacement-parts",
+    backgroundImage: "https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    eyebrowKey: "home.slide3Eyebrow",
+    titleTopKey: "home.slide3Top",
+    titleBottomKey: "home.slide3Bottom",
+    descriptionKey: "home.slide3Description",
+    ctaLabelKey: "home.slide3Cta",
+    ctaHref: "/daily-deals",
+    backgroundImage: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=80",
   },
 ];
 

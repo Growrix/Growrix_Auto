@@ -59,7 +59,7 @@ export default function Navbar() {
   const [brandLead, ...brandRest] = siteConfig.name.split(" ");
 
   return (
-    <header className="sticky top-0 z-40">
+    <header className="sticky top-0 z-40 motion-header-enter">
       <div className="bg-[#111] text-white text-[12px]">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-10">
           <div className="flex items-center gap-2 font-medium">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import SiteMotion from "@/components/layout/SiteMotion";
 import { brandConfig } from "@/data/brand";
 import { getServerPreferences } from "@/lib/serverPreferences";
 import AppProviders from "@/state/AppProviders";
@@ -28,6 +29,7 @@ export default async function RootLayout({
     <html lang={preferences.language} className={inter.variable} data-scroll-behavior="smooth">
       <body className="min-h-screen bg-white text-[#1b1b1b] antialiased">
         <AppProviders initialLanguage={preferences.language} initialCurrency={preferences.currency}>
+          <SiteMotion />
           <div className="flex min-h-screen flex-col">
             <Navbar />
             <main className="flex-1">{children}</main>

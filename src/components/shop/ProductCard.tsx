@@ -14,7 +14,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const { formatPrice } = useUtility();
 
   return (
-    <article className="group relative border border-[#e6e6e6] bg-white p-4 shadow-[0_1px_0_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <article data-motion-card className="group relative border border-[#e6e6e6] bg-white p-4 shadow-[0_1px_0_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl motion-lift">
       {product.discountLabel ? (
         <div className="absolute left-0 top-0 z-10 bg-[#ff3434] px-3 py-1 text-[12px] font-bold text-white">
           {product.discountLabel}
