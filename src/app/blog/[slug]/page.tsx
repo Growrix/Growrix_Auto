@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/shop/Breadcrumbs";
-import { blogPosts, getBlogPostBySlug } from "@/data/blog";
+import { blogPosts, getBlogPostBySlug, getLocalizedBlogPosts } from "@/data/blog";
 import { blogPath } from "@/data/routes";
 import { getServerPreferences } from "@/lib/serverPreferences";
 
@@ -15,15 +15,17 @@ export function generateStaticParams() {
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { t } = await getServerPreferences();
+  const { language, t } = await getServerPreferences();
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+  const post = getBlogPostBySlug(slug, language);
 
   if (!post) {
     notFound();
   }
 
-  const relatedPosts = blogPosts.filter((item) => item.slug !== post.slug).slice(0, 2);
+  const relatedPosts = getLocalizedBlogPosts(language)
+    .filter((item) => item.slug !== post.slug)
+    .slice(0, 2);
 
   return (
     <div className="bg-white">

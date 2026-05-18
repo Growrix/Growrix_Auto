@@ -1,4 +1,5 @@
 import { brandConfig } from "@/data/brand";
+import { normalizeLanguage, type LanguageCode } from "@/lib/localization";
 
 export type BlogPost = {
   slug: string;
@@ -56,6 +57,94 @@ export const blogPosts: BlogPost[] = [
   },
 ];
 
-export function getBlogPostBySlug(slug: string) {
-  return blogPosts.find((post) => post.slug === slug);
+const localizedBlogCopy: Partial<
+  Record<LanguageCode, Record<string, Pick<BlogPost, "title" | "excerpt" | "content" | "tags">>>
+> = {
+  fr: {
+    "moving-from-ticket-system-to-forum": {
+      title: "PASSER DU SYSTEME DE TICKETS AU FORUM",
+      excerpt: `Pourquoi ${brandConfig.siteName} a migre ses conversations support vers un forum consultable.`,
+      content: [
+        "Notre equipe support est passee d'une file privee de tickets a un modele forum public pour accelerer les reponses et le partage.",
+        "En taguant les problemes techniques recurrents et en liant les references produit, nous avons reduit les tickets dupliques.",
+        `Le forum sert maintenant de canal support et d'archive d'apprentissage pour les clients ${brandConfig.siteName}.`,
+      ],
+      tags: ["support", "communaute", "operations"],
+    },
+    "8-ideas-to-get-your-site-ready": {
+      title: "8 IDEES POUR PREPARER VOTRE SITE",
+      excerpt: "Une checklist pratique de lancement pour les experiences commerce automobile.",
+      content: [
+        "Un lancement solide depend d'une couverture complete des routes et de parcours utilisateurs honnetes du premier clic au paiement.",
+        "Nous recommandons de valider la decouverte produit, la persistance panier et les parcours mobiles avant le lancement public.",
+        "Quand les sections visuelles et les destinations de route sont alignees, le rebond baisse et les retours augmentent naturellement.",
+      ],
+      tags: ["lancement", "ux", "commerce"],
+    },
+    "customer-support-notice-for-holiday": {
+      title: "NOTE SUPPORT CLIENT POUR LES CONGES",
+      excerpt: "Horaires support pendant les conges et details de continuite de service.",
+      content: [
+        "Pendant les periodes de conges, les horaires de support en direct changent tandis que le suivi commande et la base d'aide restent disponibles 24/7.",
+        "Les demandes d'expedition urgentes peuvent toujours etre envoyees via les routes support, avec priorite selon les delais de livraison.",
+        "Nous publions les mises a jour de route et statut en avance pour que les clients sachent ou trouver la bonne destination.",
+      ],
+      tags: ["conges", "support", "expedition"],
+    },
+  },
+  es: {
+    "moving-from-ticket-system-to-forum": {
+      title: "MIGRAR DE TICKETS A FORO",
+      excerpt: `Por que ${brandConfig.siteName} movio conversaciones de soporte a un foro consultable.`,
+      content: [
+        "Nuestro equipo de soporte paso de una cola privada de tickets a un modelo de foro publico para mejorar velocidad y compartir conocimiento.",
+        "Al etiquetar problemas tecnicos recurrentes y enlazar referencias de producto, reducimos tickets duplicados y mejoramos descubrimiento.",
+        `El foro ahora funciona como canal de soporte y archivo de aprendizaje para clientes de ${brandConfig.siteName}.`,
+      ],
+      tags: ["soporte", "comunidad", "operaciones"],
+    },
+    "8-ideas-to-get-your-site-ready": {
+      title: "8 IDEAS PARA PREPARAR TU SITIO",
+      excerpt: "Checklist practica de lanzamiento para experiencias de comercio automotriz.",
+      content: [
+        "Un buen lanzamiento depende de cobertura completa de rutas y recorridos honestos desde el primer clic hasta pago.",
+        "Recomendamos validar descubrimiento de productos, persistencia del carrito y conversion movil antes del despliegue publico.",
+        "Cuando las secciones visuales y los destinos de ruta estan alineados, baja el rebote y suben las visitas repetidas.",
+      ],
+      tags: ["lanzamiento", "ux", "comercio"],
+    },
+    "customer-support-notice-for-holiday": {
+      title: "AVISO DE SOPORTE EN TEMPORADA FESTIVA",
+      excerpt: "Cobertura de soporte en festivos y continuidad del servicio.",
+      content: [
+        "Durante semanas festivas, el soporte en vivo ajusta horarios mientras seguimiento de pedidos y ayuda permanecen disponibles 24/7.",
+        "Las solicitudes urgentes de envio se pueden enviar por rutas de soporte y se priorizan segun los plazos de cumplimiento.",
+        "Publicamos actualizaciones de rutas y estado por adelantado para que los clientes encuentren siempre el destino correcto.",
+      ],
+      tags: ["festivo", "soporte", "envio"],
+    },
+  },
+};
+
+export function getLocalizedBlogPost(post: BlogPost, language: LanguageCode = "en") {
+  const normalizedLanguage = normalizeLanguage(language);
+  const localized = localizedBlogCopy[normalizedLanguage]?.[post.slug];
+
+  if (!localized) {
+    return post;
+  }
+
+  return {
+    ...post,
+    ...localized,
+  };
+}
+
+export function getLocalizedBlogPosts(language: LanguageCode = "en") {
+  return blogPosts.map((post) => getLocalizedBlogPost(post, language));
+}
+
+export function getBlogPostBySlug(slug: string, language: LanguageCode = "en") {
+  const post = blogPosts.find((entry) => entry.slug === slug);
+  return post ? getLocalizedBlogPost(post, language) : undefined;
 }

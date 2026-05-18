@@ -30,21 +30,21 @@ export const footerColumns = [
   {
     titleKey: "footer.contactUs",
     links: [
-      { label: "5611 Wellington Road, Suite 115, Gainesville, VA 20155", href: "/contact-us" },
-      { label: "888 9344 6000 - 888 1234 6789", href: "/contact-us" },
+      { label: "Growrix Auto HQ, 2210 Commerce Drive, Austin, TX 78701", href: "/contact-us" },
+      { label: "888 9434 4600 - 888 9434 4601", href: "/contact-us" },
       { label: brandConfig.supportEmail, href: "/contact-us" },
-      { label: "7 Days a week from 10-00 am to 6-00 pm", href: "/contact-us" },
+      { label: "Mon - Sat, 08:00 AM to 08:00 PM", href: "/contact-us" },
     ],
   },
   {
     titleKey: "footer.storeLocation",
     links: [
-      { label: "Los Angeles - USA", href: "/store-location" },
-      { label: "New York - USA", href: "/store-location" },
-      { label: "California - USA", href: "/store-location" },
-      { label: "Bangkok - Thailand", href: "/store-location" },
-      { label: "Paris - France", href: "/store-location" },
-      { label: "London - England", href: "/store-location" },
+      { label: "Austin Service Hub - Texas", href: "/store-location" },
+      { label: "Dallas Parts Center - Texas", href: "/store-location" },
+      { label: "Phoenix Tire Lab - Arizona", href: "/store-location" },
+      { label: "Denver Fleet Desk - Colorado", href: "/store-location" },
+      { label: "Toronto Partner Bay - Ontario", href: "/store-location" },
+      { label: "Vancouver West Point - British Columbia", href: "/store-location" },
     ],
   },
   {
@@ -61,23 +61,23 @@ export const footerColumns = [
   {
     titleKey: "footer.information",
     links: [
-      { label: "Caps & Hats", href: "/shop/category/smart-devices" },
-      { label: "Hoodies & Sweatshirts", href: "/shop/category/replacement-parts" },
-      { label: "Jacket & Coats", href: "/shop/category/tools-equipment" },
-      { label: "Jumpers & Cardigans", href: "/shop/category/oils-fluids" },
-      { label: "Shoes, Boots & Trainers", href: "/shop/category/wheels-tires" },
-      { label: "Underwear & Socks", href: "/shop/category/lights-lighting" },
+      { label: "Brake Kits", href: "/shop/category/replacement-parts" },
+      { label: "Wheel Packages", href: "/shop/category/wheels-tires" },
+      { label: "Garage Tools", href: "/shop/category/tools-equipment" },
+      { label: "Engine Oils", href: "/shop/category/oils-fluids" },
+      { label: "LED Lighting", href: "/shop/category/lights-lighting" },
+      { label: "Smart Trackers", href: "/shop/category/smart-devices" },
     ],
   },
 ];
 
 export const socialLinks = [
-  { label: "Facebook", href: "https://www.facebook.com" },
-  { label: "Twitter", href: "https://x.com" },
-  { label: "Google+", href: "https://about.google" },
-  { label: "LinkedIn", href: "https://www.linkedin.com" },
-  { label: "Pinterest", href: "https://www.pinterest.com" },
-  { label: "YouTube", href: "https://www.youtube.com" },
+  { label: "Facebook", href: "https://www.facebook.com/growrixauto" },
+  { label: "Twitter", href: "https://x.com/growrixauto" },
+  { label: "Instagram", href: "https://www.instagram.com/growrixauto" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/growrix-auto" },
+  { label: "Pinterest", href: "https://www.pinterest.com/growrixauto" },
+  { label: "YouTube", href: "https://www.youtube.com/@growrixauto" },
 ];
 
 export const paymentBrands = ["Maestro", "PayPal", "Western Union", "VISA", "Cirrus", "eBay"];

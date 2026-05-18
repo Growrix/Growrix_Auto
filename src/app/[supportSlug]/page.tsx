@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/shop/Breadcrumbs";
+import SupportInteractivePanel from "@/components/support/SupportInteractivePanel";
 import { getSupportLinkBySlug, supportLinks } from "@/data/support";
 import { getServerPreferences } from "@/lib/serverPreferences";
 
@@ -21,6 +22,7 @@ export default async function SupportPage({ params }: SupportPageProps) {
   }
 
   const localizedDescription = t(`support.${supportSlug}.description`);
+  const localizedTitle = t(`support.${supportSlug}.label`);
   const localizedContent = [
     t(`support.${supportSlug}.content1`),
     t(`support.${supportSlug}.content2`),
@@ -28,10 +30,10 @@ export default async function SupportPage({ params }: SupportPageProps) {
 
   return (
     <div className="bg-white">
-      <Breadcrumbs items={[t("common.home"), supportPage.label]} />
+      <Breadcrumbs items={["Home", supportPage.label]} />
 
       <section className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 lg:px-10">
-        <h1 className="text-[34px] font-black uppercase text-[#222]">{supportPage.label}</h1>
+        <h1 className="text-[34px] font-black uppercase text-[#222]">{localizedTitle}</h1>
         <p className="mt-3 text-[15px] leading-7 text-[#666]">{localizedDescription}</p>
 
         <div className="mt-8 space-y-5 text-[15px] leading-8 text-[#555]">
@@ -39,6 +41,8 @@ export default async function SupportPage({ params }: SupportPageProps) {
             <p key={paragraph}>{paragraph}</p>
           ))}
         </div>
+
+        <SupportInteractivePanel supportSlug={supportSlug} />
       </section>
     </div>
   );

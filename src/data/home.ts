@@ -43,11 +43,11 @@ export const homeCategories = categories;
 export const vehicleFilters = vehicleFilterOptions;
 
 export const bestSellerTabs = [
-  { label: "WHEELS & TIRES", categorySlug: "wheels-tires" },
-  { label: "OILS & FLUIDS", categorySlug: "oils-fluids" },
-  { label: "CAR LIGHTS", categorySlug: "lights-lighting" },
-  { label: "SMART DEVICES", categorySlug: "smart-devices" },
-  { label: "HEADLIGHTS", categorySlug: "lights-lighting" },
+  { label: "WHEELS & TIRES", labelKey: "home.bestSellerTabWheels", categorySlug: "wheels-tires" },
+  { label: "OILS & FLUIDS", labelKey: "home.bestSellerTabFluids", categorySlug: "oils-fluids" },
+  { label: "CAR LIGHTS", labelKey: "home.bestSellerTabLights", categorySlug: "lights-lighting" },
+  { label: "SMART DEVICES", labelKey: "home.bestSellerTabSmart", categorySlug: "smart-devices" },
+  { label: "HEADLIGHTS", labelKey: "home.bestSellerTabHeadlights", categorySlug: "lights-lighting" },
 ];
 
 export const bestSellerProducts = products;
@@ -58,7 +58,7 @@ export const productLists = productListSections;
 
 export const dailyDealTabs = dealTabs;
 
-export const brandLogos = ["FATTRESE", "XLLE", "palco", "LOGO BRAND", "LETHROV", "LENTBEY"];
+export const brandLogos = ["BREMBO", "MICHELIN", "BOSCH", "HELLA", "MOBIL 1", "KYB"];
 
 export { blogPosts };
 

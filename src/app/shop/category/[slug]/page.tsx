@@ -1,7 +1,13 @@
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/shop/Breadcrumbs";
 import ProductCard from "@/components/shop/ProductCard";
-import { categories, getCategoryBySlug, getProductsByCategory } from "@/data/catalog";
+import {
+  categories,
+  getCategoryBySlug,
+  getCategoryDescription,
+  getCategoryLabel,
+  getProductsByCategory,
+} from "@/data/catalog";
 import { getServerPreferences } from "@/lib/serverPreferences";
 
 type CategoryPageProps = {
@@ -13,7 +19,7 @@ export function generateStaticParams() {
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
-  const { t } = await getServerPreferences();
+  const { language, t } = await getServerPreferences();
   const { slug } = await params;
   const category = getCategoryBySlug(slug);
 
@@ -22,14 +28,16 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   }
 
   const categoryProducts = getProductsByCategory(category.slug);
+  const localizedLabel = getCategoryLabel(category, language);
+  const localizedDescription = getCategoryDescription(category, language);
 
   return (
     <div className="bg-white">
-      <Breadcrumbs items={["Home", "Shop", category.label]} />
+      <Breadcrumbs items={["Home", "Shop", localizedLabel]} />
 
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-10">
-        <h1 className="text-[34px] font-black uppercase text-[#222]">{category.label}</h1>
-        <p className="mt-3 max-w-3xl text-[15px] leading-7 text-[#666]">{category.description}</p>
+        <h1 className="text-[34px] font-black uppercase text-[#222]">{localizedLabel}</h1>
+        <p className="mt-3 max-w-3xl text-[15px] leading-7 text-[#666]">{localizedDescription}</p>
 
         {categoryProducts.length === 0 ? (
           <div className="mt-10 border border-[#eee] bg-[#fafafa] px-6 py-10 text-[14px] text-[#666]">

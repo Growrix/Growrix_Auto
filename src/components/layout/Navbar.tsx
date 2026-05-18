@@ -196,6 +196,37 @@ export default function Navbar() {
             >
               {t("nav.myCart")} ({itemCount})
             </Link>
+            <div className="grid gap-3 border-b border-[#f1f1f1] py-3">
+              <label className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#666]">
+                {t("account.language")}
+                <select
+                  value={selectedLanguage}
+                  onChange={(event) => setLanguage(event.target.value)}
+                  className="mt-2 h-10 w-full border border-[#ddd] bg-white px-3 text-[13px] text-[#333]"
+                >
+                  {languages.map((language) => (
+                    <option key={language.code} value={language.code}>
+                      {language.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#666]">
+                {t("account.currency")}
+                <select
+                  value={selectedCurrency}
+                  onChange={(event) => setCurrency(event.target.value)}
+                  className="mt-2 h-10 w-full border border-[#ddd] bg-white px-3 text-[13px] text-[#333]"
+                >
+                  {currencies.map((currency) => (
+                    <option key={currency} value={currency}>
+                      {currency}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
             {isAuthenticated ? (
               <>
                 <Link

@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { blogPosts } from "@/data/blog";
+import { getLocalizedBlogPosts } from "@/data/blog";
 import { blogPath } from "@/data/routes";
 import { getServerPreferences } from "@/lib/serverPreferences";
 
 export default async function BlogPage() {
-  const { t } = await getServerPreferences();
+  const { language, t } = await getServerPreferences();
+  const localizedBlogPosts = getLocalizedBlogPosts(language);
 
   return (
     <div className="bg-white">
@@ -16,7 +17,7 @@ export default async function BlogPage() {
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-10">
         <h1 className="text-[34px] font-black uppercase text-[#222]">{t("common.blog")}</h1>
         <div className="mt-8 grid gap-8 lg:grid-cols-3">
-          {blogPosts.map((post) => (
+          {localizedBlogPosts.map((post) => (
             <article key={post.slug}>
               <div className="relative h-60 overflow-hidden">
                 <Image src={post.image} alt={post.title} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover" />

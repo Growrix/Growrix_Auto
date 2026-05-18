@@ -1,6 +1,11 @@
 import Breadcrumbs from "@/components/shop/Breadcrumbs";
 import ProductCard from "@/components/shop/ProductCard";
-import { products } from "@/data/catalog";
+import {
+  getProductCompatibility,
+  getProductExcerpt,
+  getProductTitle,
+  products,
+} from "@/data/catalog";
 import { getServerPreferences } from "@/lib/serverPreferences";
 
 type SearchPageProps = {
@@ -13,16 +18,25 @@ function toSingle(value: string | string[] | undefined) {
 }
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
-  const { t } = await getServerPreferences();
+  const { t, language } = await getServerPreferences();
   const params = await searchParams;
-  const query = toSingle(params.q).trim().toLowerCase();
-  const make = toSingle(params.make);
-  const model = toSingle(params.model);
-  const year = toSingle(params.year);
+  const queryInput = toSingle(params.q).trim();
+  const query = queryInput.toLowerCase();
+  const make = toSingle(params.make).trim();
+  const model = toSingle(params.model).trim();
+  const year = toSingle(params.year).trim();
 
   const results = products.filter((product) => {
-    if (!query) return true;
-    return `${product.title} ${product.excerpt} ${product.tags.join(" ")}`.toLowerCase().includes(query);
+    const compatibility = getProductCompatibility(product);
+    const title = getProductTitle(product, language);
+    const excerpt = getProductExcerpt(product, language);
+    const matchesQuery = !query
+      || `${title} ${excerpt} ${product.tags.join(" ")}`.toLowerCase().includes(query);
+    const matchesMake = !make || compatibility.makes.some((entry) => entry.toLowerCase() === make.toLowerCase());
+    const matchesModel = !model || compatibility.models.some((entry) => entry.toLowerCase() === model.toLowerCase());
+    const matchesYear = !year || compatibility.years.some((entry) => entry === year);
+
+    return matchesQuery && matchesMake && matchesModel && matchesYear;
   });
 
   return (
@@ -33,7 +47,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         <h1 className="text-[34px] font-black uppercase text-[#222]">{t("search.results")}</h1>
 
         <div className="mt-3 flex flex-wrap gap-2 text-[12px] uppercase text-[#666]">
-          {query ? <span className="rounded-full bg-[#f2f2f2] px-3 py-1">{t("search.query")}: {query}</span> : null}
+          {query ? <span className="rounded-full bg-[#f2f2f2] px-3 py-1">{t("search.query")}: {queryInput}</span> : null}
           {make ? <span className="rounded-full bg-[#f2f2f2] px-3 py-1">{t("search.make")}: {make}</span> : null}
           {model ? <span className="rounded-full bg-[#f2f2f2] px-3 py-1">{t("search.model")}: {model}</span> : null}
           {year ? <span className="rounded-full bg-[#f2f2f2] px-3 py-1">{t("search.year")}: {year}</span> : null}

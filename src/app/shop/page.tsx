@@ -3,12 +3,12 @@ import { Suspense } from "react";
 import Breadcrumbs from "@/components/shop/Breadcrumbs";
 import ProductCard from "@/components/shop/ProductCard";
 import SearchFilters from "@/components/shop/SearchFilters";
-import { categories, products } from "@/data/catalog";
+import { categories, getCategoryLabel, products } from "@/data/catalog";
 import { categoryPath } from "@/data/routes";
 import { getServerPreferences } from "@/lib/serverPreferences";
 
 export default async function ShopPage() {
-  const { t } = await getServerPreferences();
+  const { language, t } = await getServerPreferences();
 
   return (
     <div className="bg-white">
@@ -29,7 +29,7 @@ export default async function ShopPage() {
               href={categoryPath(category.slug)}
               className="rounded-full border border-[#ddd] px-4 py-2 text-[12px] font-bold uppercase text-[#555] transition-colors hover:border-[#ff3434] hover:text-[#ff3434]"
             >
-              {category.label}
+              {getCategoryLabel(category, language)}
             </Link>
           ))}
         </div>

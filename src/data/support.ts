@@ -65,12 +65,12 @@ export const supportLinks: SupportLink[] = [
 ];
 
 export const infoLinks = [
-  { label: "Caps & Hats", categorySlug: "smart-devices" },
-  { label: "Hoodies & Sweatshirts", categorySlug: "replacement-parts" },
-  { label: "Jacket & Coats", categorySlug: "tools-equipment" },
-  { label: "Jumpers & Cardigans", categorySlug: "oils-fluids" },
-  { label: "Shoes, Boots & Trainers", categorySlug: "wheels-tires" },
-  { label: "Underwear & Socks", categorySlug: "lights-lighting" },
+  { label: "OBD-II Scanners", categorySlug: "smart-devices" },
+  { label: "Brake Assemblies", categorySlug: "replacement-parts" },
+  { label: "Torque Tool Sets", categorySlug: "tools-equipment" },
+  { label: "Synthetic Fluids", categorySlug: "oils-fluids" },
+  { label: "Performance Tires", categorySlug: "wheels-tires" },
+  { label: "Night Vision LEDs", categorySlug: "lights-lighting" },
 ];
 
 export function getSupportLinkBySlug(slug: string) {

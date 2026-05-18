@@ -6,13 +6,13 @@ export const aboutPage = {
   heroImage: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=1400&q=80",
   intro: [
     `${brandConfig.siteName} is a clean automotive storefront concept focused on premium parts, trusted brands, and a fast shopping experience.`,
-    "The layout combines a bold visual hierarchy with practical product discovery, so the template feels like a real e-commerce destination instead of a generic landing page.",
+    "The layout combines a bold visual hierarchy with practical product discovery, so every route behaves like a real e-commerce destination instead of a static landing page.",
   ],
   team: [
-    { name: "Michael Phelps", role: "Founder, CEO", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80" },
-    { name: "Vladimir Radskin", role: "Web Designer", image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80" },
-    { name: "Tommy Hilfiger", role: "Developer", image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80" },
-    { name: "Anna Johanson", role: "Testing Website", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80" },
+    { name: "Avery Collins", role: "Founder, CEO", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80" },
+    { name: "Jordan Rivera", role: "Product Experience Lead", image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80" },
+    { name: "Casey Morgan", role: "Frontend Engineer", image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80" },
+    { name: "Taylor Brooks", role: "Quality & Service Operations", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80" },
   ],
   mapImage: "https://images.unsplash.com/photo-1524666041070-9d87656c25bb?auto=format&fit=crop&w=1600&q=80",
 };

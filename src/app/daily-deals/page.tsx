@@ -1,13 +1,52 @@
+"use client";
+
 import Link from "next/link";
-import { dealsPage } from "@/data/pages";
 import { dailyDealTabs } from "@/data/home";
 import { getProductsByCategory } from "@/data/catalog";
 import { categoryPath, routeConfig } from "@/data/routes";
 import ProductCard from "@/components/shop/ProductCard";
-import { getServerPreferences } from "@/lib/serverPreferences";
+import { useUtility } from "@/state/UtilityContext";
+import { useEffect, useMemo, useState } from "react";
 
-export default async function DailyDealsPage() {
-  const { t } = await getServerPreferences();
+const dealCountdownSeedSeconds: Record<string, number> = {
+  "brake-and-service-kits": 3 * 24 * 60 * 60 + 6 * 60 * 60 + 18 * 60 + 40,
+  "engine-care-fluids": 2 * 24 * 60 * 60 + 11 * 60 * 60 + 42 * 60 + 15,
+  "smart-driving-accessories": 1 * 24 * 60 * 60 + 9 * 60 * 60 + 17 * 60 + 55,
+};
+
+function toCountdownValues(totalSeconds: number) {
+  const days = Math.floor(totalSeconds / (24 * 60 * 60));
+  const hours = Math.floor((totalSeconds % (24 * 60 * 60)) / (60 * 60));
+  const mins = Math.floor((totalSeconds % (60 * 60)) / 60);
+  const secs = totalSeconds % 60;
+
+  return [days, hours, mins, secs];
+}
+
+export default function DailyDealsPage() {
+  const { t } = useUtility();
+  const [activeTabSlug, setActiveTabSlug] = useState(dailyDealTabs[0]?.slug ?? "");
+  const activeTab = useMemo(
+    () => dailyDealTabs.find((tab) => tab.slug === activeTabSlug) ?? dailyDealTabs[0],
+    [activeTabSlug],
+  );
+  const [secondsRemaining, setSecondsRemaining] = useState(
+    dealCountdownSeedSeconds[activeTab?.slug ?? ""] ?? 0,
+  );
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setSecondsRemaining((value) => (value > 0 ? value - 1 : 0));
+    }, 1000);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
+
+  const activeProducts = useMemo(
+    () => (activeTab ? getProductsByCategory(activeTab.categorySlug).slice(0, 4) : []),
+    [activeTab],
+  );
+  const activeCategoryHref = activeTab ? categoryPath(activeTab.categorySlug) : routeConfig.shop;
 
   return (
     <div className="bg-white">
@@ -18,36 +57,48 @@ export default async function DailyDealsPage() {
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-10">
         <h1 className="text-[34px] font-black uppercase text-[#222]">{t("dailyDeals.title")}</h1>
         <div className="mt-6 flex flex-wrap gap-0 border-b border-[#ddd]">
-          {dailyDealTabs.map((tab, index) => (
-            <Link key={tab.slug} href={categoryPath(tab.categorySlug)} className={`border px-5 py-4 text-[14px] ${index === 0 ? "border-b-white bg-white text-[#222]" : "bg-[#f5f5f5] text-[#666]"}`}>
-              {tab.label}
-            </Link>
+          {dailyDealTabs.map((tab) => (
+            <button
+              key={tab.slug}
+              type="button"
+              onClick={() => {
+                setActiveTabSlug(tab.slug);
+                setSecondsRemaining(dealCountdownSeedSeconds[tab.slug] ?? 0);
+              }}
+              className={`border px-5 py-4 text-[14px] ${activeTabSlug === tab.slug ? "border-b-white bg-white text-[#222]" : "bg-[#f5f5f5] text-[#666]"}`}
+            >
+              {t(tab.labelKey) || tab.label}
+            </button>
           ))}
         </div>
 
         <div className="mt-8 grid gap-5 xl:grid-cols-4">
-          {getProductsByCategory(dailyDealTabs[0].categorySlug).slice(0, 4).map((product) => (
+          {activeProducts.map((product, productIndex) => (
             <div key={product.slug}>
               <ProductCard product={product} />
               <div className="mt-3 grid grid-cols-4 gap-1 text-center text-[#222]">
-                {dealsPage.timers.map((timer) => (
-                  <div key={`${product.slug}-${timer}`} className="border border-[#ddd] bg-white px-2 py-3">
-                    <div className="text-[16px] font-black">{timer.split(" ")[0]}</div>
-                    <div className="text-[11px] uppercase text-[#888]">
-                      {timer.includes("DAYS") ? t("dailyDeals.days") : null}
-                      {timer.includes("HOURS") ? t("dailyDeals.hours") : null}
-                      {timer.includes("MINS") ? t("dailyDeals.mins") : null}
-                      {timer.includes("SECS") ? t("dailyDeals.secs") : null}
+                {toCountdownValues(Math.max(secondsRemaining - productIndex * 113, 0)).map((value, valueIndex) => {
+                  const labels = [
+                    t("dailyDeals.days"),
+                    t("dailyDeals.hours"),
+                    t("dailyDeals.mins"),
+                    t("dailyDeals.secs"),
+                  ];
+
+                  return (
+                    <div key={`${product.slug}-${labels[valueIndex]}`} className="border border-[#ddd] bg-white px-2 py-3">
+                      <div className="text-[16px] font-black">{String(value).padStart(2, "0")}</div>
+                      <div className="text-[11px] uppercase text-[#888]">{labels[valueIndex]}</div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           ))}
         </div>
 
         <div className="mt-10 text-center">
-          <Link href={routeConfig.shop} className="bg-[#ff3434] px-7 py-3 text-[13px] font-bold uppercase text-white">{t("common.loadMore")}</Link>
+          <Link href={activeCategoryHref} className="bg-[#ff3434] px-7 py-3 text-[13px] font-bold uppercase text-white">{t("common.loadMore")}</Link>
         </div>
       </section>
     </div>

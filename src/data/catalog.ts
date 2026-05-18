@@ -27,6 +27,11 @@ export type Product = {
   sku: string;
   stock: number;
   tags: string[];
+  compatibility?: {
+    makes: string[];
+    models: string[];
+    years: string[];
+  };
 };
 
 export type PromoTile = {
@@ -46,6 +51,7 @@ export type ProductListSection = {
 export type DealTab = {
   slug: string;
   label: string;
+  labelKey: string;
   categorySlug: string;
 };
 
@@ -279,14 +285,14 @@ export const products: Product[] = [
 export const promoTiles: PromoTile[] = [
   {
     label: "Special Offers",
-    title: "MERCEDES BENZ AUTO PARTS",
+    title: "PERFORMANCE BRAKE PARTS",
     cta: "SHOP NOW",
     image: "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=900&q=80",
     targetType: "category",
     targetSlug: "replacement-parts",
   },
   {
-    label: "SPECIAL OFFERS AT THE LOWEST OF PRICES",
+    label: "SHOP TRUSTED PARTS AT BETTER PRICES",
     title: "",
     cta: "SHOP NOW",
     image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=80",
@@ -294,7 +300,7 @@ export const promoTiles: PromoTile[] = [
   },
   {
     label: "Sale up to 70% Off",
-    title: "FERRARI BRAND AUTO PARTS",
+    title: "PREMIUM WHEEL PACKAGES",
     cta: "SHOP NOW",
     image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=80",
     targetType: "category",
@@ -333,9 +339,24 @@ export const productListSections: ProductListSection[] = [
 ];
 
 export const dealTabs: DealTab[] = [
-  { slug: "baby-car-seats", label: "Baby Car Seats", categorySlug: "replacement-parts" },
-  { slug: "car-motorbike-care", label: "Car & Motorbike Care", categorySlug: "oils-fluids" },
-  { slug: "vehicle-electronics", label: "Car & Vehicle Electronics", categorySlug: "smart-devices" },
+  {
+    slug: "brake-and-service-kits",
+    label: "Brake & Service Kits",
+    labelKey: "dailyDeals.tabBrakeService",
+    categorySlug: "replacement-parts",
+  },
+  {
+    slug: "engine-care-fluids",
+    label: "Engine Care & Fluids",
+    labelKey: "dailyDeals.tabEngineCare",
+    categorySlug: "oils-fluids",
+  },
+  {
+    slug: "smart-driving-accessories",
+    label: "Smart Driving Accessories",
+    labelKey: "dailyDeals.tabSmartAccessories",
+    categorySlug: "smart-devices",
+  },
 ];
 
 export const vehicleFilterOptions = {
@@ -343,6 +364,264 @@ export const vehicleFilterOptions = {
   model: ["Sedan", "SUV", "Truck", "Coupe", "Hatchback"],
   year: ["2024", "2023", "2022", "2021", "2020"],
 };
+
+export type ProductCompatibility = {
+  makes: string[];
+  models: string[];
+  years: string[];
+};
+
+const fallbackCompatibility: ProductCompatibility = {
+  makes: vehicleFilterOptions.make,
+  models: vehicleFilterOptions.model,
+  years: vehicleFilterOptions.year,
+};
+
+const compatibilityByCategory: Record<string, ProductCompatibility> = {
+  "wheels-tires": {
+    makes: ["Toyota", "Ford", "Chevrolet"],
+    models: ["SUV", "Truck", "Coupe"],
+    years: ["2024", "2023", "2022", "2021"],
+  },
+  "replacement-parts": {
+    makes: ["Ford", "Chevrolet", "Toyota"],
+    models: ["Sedan", "SUV", "Truck"],
+    years: ["2024", "2023", "2022", "2021", "2020"],
+  },
+  "lights-lighting": {
+    makes: ["BMW", "Mercedes", "Toyota"],
+    models: ["Sedan", "Coupe", "SUV"],
+    years: ["2024", "2023", "2022"],
+  },
+  "tools-equipment": fallbackCompatibility,
+  "smart-devices": {
+    makes: ["Toyota", "BMW", "Mercedes"],
+    models: ["Sedan", "SUV", "Hatchback"],
+    years: ["2024", "2023", "2022", "2021"],
+  },
+  "oils-fluids": {
+    makes: ["Toyota", "Ford", "BMW", "Chevrolet"],
+    models: ["Sedan", "SUV", "Truck", "Hatchback"],
+    years: ["2024", "2023", "2022", "2021", "2020"],
+  },
+};
+
+const compatibilityOverrides: Record<string, ProductCompatibility> = {
+  "ac-delco-385-professional": fallbackCompatibility,
+  "road-warrior-hub-pilot": fallbackCompatibility,
+};
+
+const categoryLocalizedCopy: Partial<
+  Record<LanguageCode, Record<string, { label: string; description: string }>>
+> = {
+  fr: {
+    "wheels-tires": {
+      label: "ROUES ET PNEUS",
+      description: "Packs de roues et pneus premium pour route et terrain mixte.",
+    },
+    "smart-devices": {
+      label: "APPAREILS CONNECTES",
+      description: "Trackers auto et accessoires connectes pour conduite moderne.",
+    },
+    "oils-fluids": {
+      label: "HUILES ET FLUIDES",
+      description: "Huiles moteur et fluides essentiels pour performance durable.",
+    },
+    "lights-lighting": {
+      label: "LUMIERES AUTO",
+      description: "Phares, ampoules et upgrades interieur pour meilleure visibilite.",
+    },
+    "replacement-parts": {
+      label: "PIECES DE REMPLACEMENT",
+      description: "Pieces fiables pour entretien courant et reparations rapides.",
+    },
+    "tools-equipment": {
+      label: "OUTILS ET EQUIPEMENT",
+      description: "Outils garage et equipement atelier pour interventions propres.",
+    },
+  },
+  es: {
+    "wheels-tires": {
+      label: "RUEDAS Y NEUMATICOS",
+      description: "Paquetes premium de ruedas y neumaticos para ciudad y off-road.",
+    },
+    "smart-devices": {
+      label: "DISPOSITIVOS INTELIGENTES",
+      description: "Rastreadores y accesorios conectados para una conduccion moderna.",
+    },
+    "oils-fluids": {
+      label: "ACEITES Y FLUIDOS",
+      description: "Aceites de motor y fluidos clave para rendimiento a largo plazo.",
+    },
+    "lights-lighting": {
+      label: "LUCES E ILUMINACION",
+      description: "Faros y mejoras de iluminacion para una vision nocturna clara.",
+    },
+    "replacement-parts": {
+      label: "PIEZAS DE REEMPLAZO",
+      description: "Piezas confiables para mantenimiento diario y servicio rapido.",
+    },
+    "tools-equipment": {
+      label: "HERRAMIENTAS Y EQUIPO",
+      description: "Herramientas de taller listas para diagnostico y reparacion.",
+    },
+  },
+};
+
+const productLocalizedCopy: Partial<
+  Record<LanguageCode, Record<string, { title: string; excerpt: string }>>
+> = {
+  fr: {
+    "20x9-wheels-fit-gmc-chevy": {
+      title: "JANTES 20X9 POUR GMC ET CHEVY",
+      excerpt: "Pack roue performance avec adherence stable et confort de conduite.",
+    },
+    "22-5-hole-aluminum-wheel": {
+      title: "JANTE ALUMINIUM 22.5 A 5 TROUS",
+      excerpt: "Jante legere en aluminium pour maniabilite nette et freinage propre.",
+    },
+    "bf-goodrich-all-terrain-ko": {
+      title: "BF GOODRICH ALL-TERRAIN KO",
+      excerpt: "Pneu tout-terrain concu pour long kilometrage et traction en pluie.",
+    },
+    "carlisle-hd-field-trax-atv-tire": {
+      title: "CARLISLE HD FIELD TRAX PNEU ATV",
+      excerpt: "Pneu ATV robuste avec flancs renforces et charge stable.",
+    },
+    "chevy-silverado-tahoe-gmc-kit": {
+      title: "KIT CHEVY SILVERADO TAHOE GMC",
+      excerpt: "Kit de remplacement adapte aux modeles Silverado, Tahoe et GMC.",
+    },
+    "compaloy-series-68-wheel": {
+      title: "JANTE COMPALOY SERIE 68",
+      excerpt: "Profil moderne avec finition premium et meilleur equilibre.",
+    },
+    "hankook-dynapro-off-road": {
+      title: "HANKOOK DYNAPRO OFF-ROAD",
+      excerpt: "Sculpture off-road pour controle solide sur gravier, boue et piste.",
+    },
+    "hankook-dynapro-atm-rf10": {
+      title: "HANKOOK DYNAPRO ATM RF10",
+      excerpt: "Pattern quotidien tout-terrain qui combine confort route et grip.",
+    },
+    "car-precision-led-headlight": {
+      title: "PHARE LED HAUTE PRECISION",
+      excerpt: "Faisceau LED net pour visibilite nocturne et consommation reduite.",
+    },
+    "car-easy-installation-forland": {
+      title: "PIECE AUTO INSTALLATION RAPIDE FORLAND",
+      excerpt: "Piece de remplacement rapide a poser avec fitment fiable.",
+    },
+    "evolution-brake-kit-drilled": {
+      title: "KIT FREIN EVOLUTION PERCE",
+      excerpt: "Kit perce pour refroidissement constant et pedale plus reactive.",
+    },
+    "discount-starter-and-alternator": {
+      title: "DEMARREUR ET ALTERNATEUR PRIX REDUIT",
+      excerpt: "Combo demarreur alternateur avec stabilite de charge testee.",
+    },
+    "ac-delco-385-professional": {
+      title: "AC DELCO 385 PROFESSIONNEL",
+      excerpt: "Composant niveau pro concu pour usage intensif en atelier.",
+    },
+    "road-warrior-hub-pilot": {
+      title: "ROAD WARRIOR HUB PILOT",
+      excerpt: "Accessoire hub pilot pour alignement stable sous charge mixte.",
+    },
+  },
+  es: {
+    "20x9-wheels-fit-gmc-chevy": {
+      title: "RINES 20X9 PARA GMC Y CHEVY",
+      excerpt: "Configuracion de rueda de alto rendimiento con agarre estable.",
+    },
+    "22-5-hole-aluminum-wheel": {
+      title: "RIN DE ALUMINIO 22.5 DE 5 ORIFICIOS",
+      excerpt: "Rin liviano para mejor manejo y frenado mas limpio.",
+    },
+    "bf-goodrich-all-terrain-ko": {
+      title: "BF GOODRICH ALL-TERRAIN KO",
+      excerpt: "Compuesto todo terreno para mayor kilometraje y traccion en lluvia.",
+    },
+    "carlisle-hd-field-trax-atv-tire": {
+      title: "CARLISLE HD FIELD TRAX NEUMATICO ATV",
+      excerpt: "Neumatico ATV reforzado con paredes fuertes y carga estable.",
+    },
+    "chevy-silverado-tahoe-gmc-kit": {
+      title: "KIT CHEVY SILVERADO TAHOE GMC",
+      excerpt: "Kit de reemplazo para Silverado, Tahoe y modelos GMC compatibles.",
+    },
+    "compaloy-series-68-wheel": {
+      title: "RIN COMPALOY SERIE 68",
+      excerpt: "Perfil moderno con acabado premium y mejor balance de carga.",
+    },
+    "hankook-dynapro-off-road": {
+      title: "HANKOOK DYNAPRO OFF-ROAD",
+      excerpt: "Dibujo off-road para control en grava, lodo y terreno irregular.",
+    },
+    "hankook-dynapro-atm-rf10": {
+      title: "HANKOOK DYNAPRO ATM RF10",
+      excerpt: "Patron todo terreno diario con equilibrio entre ruta y traccion.",
+    },
+    "car-precision-led-headlight": {
+      title: "FARO LED DE PRECISION",
+      excerpt: "Haz LED de alta claridad para mejor vision nocturna y menor consumo.",
+    },
+    "car-easy-installation-forland": {
+      title: "PIEZA AUTO INSTALACION RAPIDA FORLAND",
+      excerpt: "Repuesto de instalacion agil con ajuste confiable en taller.",
+    },
+    "evolution-brake-kit-drilled": {
+      title: "KIT DE FRENO EVOLUTION PERFORADO",
+      excerpt: "Kit perforado para menor calor y respuesta precisa del pedal.",
+    },
+    "discount-starter-and-alternator": {
+      title: "ARRANCADOR Y ALTERNADOR EN OFERTA",
+      excerpt: "Unidad combo con consistencia de carga validada.",
+    },
+    "ac-delco-385-professional": {
+      title: "AC DELCO 385 PROFESIONAL",
+      excerpt: "Componente profesional para uso continuo en el taller.",
+    },
+    "road-warrior-hub-pilot": {
+      title: "ROAD WARRIOR HUB PILOT",
+      excerpt: "Accesorio de alineacion de rueda para cargas mixtas.",
+    },
+  },
+};
+
+export function getProductCompatibility(product: Product): ProductCompatibility {
+  return (
+    product.compatibility
+    ?? compatibilityOverrides[product.slug]
+    ?? compatibilityByCategory[product.categorySlug]
+    ?? fallbackCompatibility
+  );
+}
+
+export function getCategoryLabel(category: Category, language: LanguageCode = "en") {
+  const normalizedLanguage = normalizeLanguage(language);
+  return categoryLocalizedCopy[normalizedLanguage]?.[category.slug]?.label ?? category.label;
+}
+
+export function getCategoryDescription(category: Category, language: LanguageCode = "en") {
+  const normalizedLanguage = normalizeLanguage(language);
+  return categoryLocalizedCopy[normalizedLanguage]?.[category.slug]?.description ?? category.description;
+}
+
+export function getCategoryLabelBySlug(slug: string, language: LanguageCode = "en") {
+  const category = getCategoryBySlug(slug);
+  return category ? getCategoryLabel(category, language) : slug;
+}
+
+export function getProductTitle(product: Product, language: LanguageCode = "en") {
+  const normalizedLanguage = normalizeLanguage(language);
+  return productLocalizedCopy[normalizedLanguage]?.[product.slug]?.title ?? product.title;
+}
+
+export function getProductExcerpt(product: Product, language: LanguageCode = "en") {
+  const normalizedLanguage = normalizeLanguage(language);
+  return productLocalizedCopy[normalizedLanguage]?.[product.slug]?.excerpt ?? product.excerpt;
+}
 
 export function getCategoryBySlug(slug: string) {
   return categories.find((category) => category.slug === slug);

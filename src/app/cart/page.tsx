@@ -4,14 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import Breadcrumbs from "@/components/shop/Breadcrumbs";
 import { cartPage } from "@/data/pages";
-import { getProductBySlug } from "@/data/catalog";
+import { getProductBySlug, getProductExcerpt, getProductTitle } from "@/data/catalog";
 import { routeConfig } from "@/data/routes";
 import { useCart } from "@/state/CartContext";
 import { useUtility } from "@/state/UtilityContext";
 
 export default function CartPage() {
   const { items, subtotal, updateQuantity, removeFromCart, clearCart } = useCart();
-  const { formatPrice, t } = useUtility();
+  const { formatPrice, selectedLanguage, t } = useUtility();
 
   return (
     <div className="bg-white">
@@ -35,16 +35,18 @@ export default function CartPage() {
               {items.map((item) => {
                 const product = getProductBySlug(item.productSlug);
                 if (!product) return null;
+                const localizedTitle = getProductTitle(product, selectedLanguage);
+                const localizedExcerpt = getProductExcerpt(product, selectedLanguage);
 
                 return (
                   <article key={item.productSlug} className="grid gap-4 border border-[#ececec] p-4 md:grid-cols-[96px_1fr_auto_auto_auto] md:items-center">
                     <div className="relative h-24 w-24 overflow-hidden bg-[#fafafa]">
-                      <Image src={product.image} alt={product.title} fill sizes="96px" className="object-contain" />
+                      <Image src={product.image} alt={localizedTitle} fill sizes="96px" className="object-contain" />
                     </div>
 
                     <div>
-                      <p className="text-[14px] font-bold uppercase text-[#222]">{product.title}</p>
-                      <p className="mt-1 text-[13px] text-[#666]">{product.excerpt}</p>
+                      <p className="text-[14px] font-bold uppercase text-[#222]">{localizedTitle}</p>
+                      <p className="mt-1 text-[13px] text-[#666]">{localizedExcerpt}</p>
                     </div>
 
                     <p className="text-[14px] font-bold text-[#ff3434]">{formatPrice(product.price)}</p>
